@@ -1,10 +1,10 @@
 import { FC, MouseEvent } from 'react'
 import { FaAngleDown } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
-import { State } from '../../app/store'
-import { useClickAway } from '../hooks/useClickAway'
-import { LANGUAGES } from './constants'
-import { changeLang } from './slice'
+import { State } from '../../../app/store'
+import { useClickAway } from '../../hooks/useClickAway'
+import { LANGUAGES } from '../constants'
+import { changeLang } from '../slice'
 
 interface ISelectLanguagesProps {}
 

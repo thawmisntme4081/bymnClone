@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
-import { LOGO, titleLogo } from './constants'
+import { LOGO, titleLogo } from '../constants'
 
 interface ILeftHeaderProps {}
 

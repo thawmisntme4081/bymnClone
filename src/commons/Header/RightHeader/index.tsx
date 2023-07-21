@@ -1,9 +1,8 @@
 import { FC } from 'react'
-import { FaRegUserCircle } from 'react-icons/fa'
-import { IconContext } from 'react-icons/lib'
 import { Link } from 'react-router-dom'
+import { NAV_TOP_HEADER } from '../constants'
 import SelectLanguages from './SelectLanguages'
-import { NAV_TOP_HEADER } from './constants'
+import UserAuth from './UserAuth'
 
 interface IRightHeaderProps {}
 
@@ -20,11 +19,7 @@ const RightHeader: FC<IRightHeaderProps> = () => {
         </Link>
       ))}
       <SelectLanguages />
-      <IconContext.Provider
-        value={{ size: '24', style: { cursor: 'pointer' } }}
-      >
-        <FaRegUserCircle />
-      </IconContext.Provider>
+      <UserAuth />
     </div>
   )
 }
