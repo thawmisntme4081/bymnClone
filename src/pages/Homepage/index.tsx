@@ -1,9 +1,9 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 interface IHomePageProps {}
 
-const HomePage: FunctionComponent<IHomePageProps> = () => {
-  return <div>Homepage</div>
+const HomePage: FC<IHomePageProps> = () => {
+  return <div className="bg-primary">Homepage</div>
 }
 
 export default HomePage
