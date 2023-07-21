@@ -4,7 +4,6 @@ import headerReducer from '../commons/Header/slice';
 
 export const store: ToolkitStore = configureStore({ reducer: { headerReducer } })
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+export type State = ReturnType<typeof store.getState>
 
 export default store

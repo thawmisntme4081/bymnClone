@@ -20,7 +20,9 @@ const RightHeader: FC<IRightHeaderProps> = () => {
         </Link>
       ))}
       <SelectLanguages />
-      <IconContext.Provider value={{ size: '24' }}>
+      <IconContext.Provider
+        value={{ size: '24', style: { cursor: 'pointer' } }}
+      >
         <FaRegUserCircle />
       </IconContext.Provider>
     </div>
