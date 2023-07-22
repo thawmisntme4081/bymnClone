@@ -1,5 +1,5 @@
 import { FC, MouseEvent } from 'react'
-import { FaRegUserCircle } from 'react-icons/fa'
+import { FaCaretDown, FaRegUserCircle } from 'react-icons/fa'
 import { IconContext } from 'react-icons/lib'
 import { Link } from 'react-router-dom'
 import useClickAway from '../../hooks/useClickAway'
@@ -28,7 +28,7 @@ const UserAuth: FC<IUserAuthProps> = () => {
       {isOpen && (
         <div
           ref={ref}
-          className="absolute right-0 top-14 z-10 bg-primary shadow-[0px_2px_32px_0px_rgba(0,0,0,0.8)] w-60"
+          className="absolute right-0 top-11 z-10 bg-primary shadow-[0px_2px_32px_0px_rgba(0,0,0,0.8)] w-60"
         >
           <div className="flex items-center justify-center bg-black/[0.1] h-44">
             <IconContext.Provider
@@ -46,6 +46,16 @@ const UserAuth: FC<IUserAuthProps> = () => {
               {item.label}
             </Link>
           ))}
+          <div className="p-3 relative">
+            <select className="w-full bg-black/[0.1] py-2 pl-3 pr-8 appearance-none text-sm font-semibold">
+              <option value="auto" selected>
+                Automatic theme
+              </option>
+              <option value="light">Light Mode</option>
+              <option value="dark">Dark Mode</option>
+            </select>
+            <FaCaretDown className="absolute right-5 top-2/4 -translate-y-1/2" />
+          </div>
         </div>
       )}
     </div>

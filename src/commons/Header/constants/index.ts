@@ -36,3 +36,14 @@ export const LINK_AUTH_HEADER: ILinkHeader[] = [
   { label: 'Login', to: '/login' },
   { label: 'Register', to: '/register' },
 ]
+
+export const NAVBAR_HEADER: ILinkHeader[] = [
+  { label: 'News', to: '/news' },
+  { label: 'FC Bayern TV', to: '/fcbayerntv' },
+  { label: 'Matches', to: '/matches' },
+  { label: 'Teams', to: '/teams' },
+  { label: 'Club', to: '/club' },
+  { label: 'Fans', to: '/fans' },
+  { label: 'Tickets', to: '/tickets' },
+  { label: 'Museum', to: '/museum' },
+]
