@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-export const useClickAway = (initialState: boolean) => {
+const useClickAway = (initialState: boolean) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState<boolean>(initialState)
 
@@ -22,3 +22,5 @@ export const useClickAway = (initialState: boolean) => {
 
   return { ref, isOpen, setIsOpen };
 };
+
+export default useClickAway

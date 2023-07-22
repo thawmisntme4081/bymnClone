@@ -1,21 +1,20 @@
 import { FC, MouseEvent } from 'react'
 import { FaAngleDown } from 'react-icons/fa'
-import { useDispatch, useSelector } from 'react-redux'
-import { State } from '../../../app/store'
-import { useClickAway } from '../../hooks/useClickAway'
+import { useDispatch } from 'react-redux'
+import useClickAway from '../../hooks/useClickAway'
 import { LANGUAGES } from '../constants'
+import getSelectedLang from '../helpers'
 import { changeLang } from '../slice'
 
 interface ISelectLanguagesProps {}
 
 const SelectLanguages: FC<ISelectLanguagesProps> = () => {
   const dispatch = useDispatch()
-
   const { ref, isOpen, setIsOpen } = useClickAway(false)
-
-  const { lang } = useSelector((state: State) => state.headerReducer)
+  const selectedLang = getSelectedLang()
 
   const handleChangeLang = (value: string) => {
+    localStorage.setItem('lang', value as string)
     dispatch(changeLang(value))
     setIsOpen(false)
   }
@@ -24,8 +23,6 @@ const SelectLanguages: FC<ISelectLanguagesProps> = () => {
     e.stopPropagation()
     setIsOpen((prev) => !prev)
   }
-
-  const selectedLang = LANGUAGES.find((item) => item.value === lang)
 
   return (
     <div className="relative">

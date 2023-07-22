@@ -22,12 +22,17 @@ export const LANGUAGES: ILang[] = [
   { label: 'French', value: 'fr' },
 ]
 
-interface INavTopHeader {
+interface ILinkHeader {
   label: string,
   to: string
 }
 
-export const NAV_TOP_HEADER: INavTopHeader[] = [
+export const NAV_TOP_HEADER: ILinkHeader[] = [
   { label: 'Contact', to: '/contact' },
   { label: 'Allianz Arena', to: '/stadium' },
+]
+
+export const LINK_AUTH_HEADER: ILinkHeader[] = [
+  { label: 'Login', to: '/login' },
+  { label: 'Register', to: '/register' },
 ]
