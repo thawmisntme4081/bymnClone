@@ -1,7 +1,7 @@
 import { FC, MouseEvent } from 'react'
 import { FaCaretDown, FaRegUserCircle } from 'react-icons/fa'
 import { IconContext } from 'react-icons/lib'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import useClickAway from '../../hooks/useClickAway'
 import { LINK_AUTH_HEADER } from '../constants'
 
@@ -38,13 +38,13 @@ const UserAuth: FC<IUserAuthProps> = () => {
             </IconContext.Provider>
           </div>
           {LINK_AUTH_HEADER.map((item) => (
-            <Link
+            <NavLink
               key={item.to}
               to={item.to}
               className="block text-center font-semibold leading-10 border-b border-black/[0.1] hover:bg-white/[0.1]"
             >
               {item.label}
-            </Link>
+            </NavLink>
           ))}
           <div className="p-3 relative">
             <select className="w-full bg-black/[0.1] py-2 pl-3 pr-8 appearance-none text-sm font-semibold">

@@ -1,9 +1,5 @@
-import Logo from '../../svg/logo.svg'
-
-interface ILogo {
-  logo: string,
-  alt: string
-}
+import { ILogo } from '../interfaces'
+import Logo from '../svg/logo.svg'
 
 export const LOGO: ILogo = {
   logo: Logo,

@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import RightBottomHeader from '../../components/hardCode/RightBottomHeader'
 import { NAV_TOP_HEADER } from '../constants'
 import SelectLanguages from './SelectLanguages'
@@ -12,13 +12,13 @@ const RightHeader: FC<IRightHeaderProps> = () => {
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-5">
         {NAV_TOP_HEADER.map((item) => (
-          <Link
+          <NavLink
             key={item.to}
             to={item.to}
             className="hover:underline text-sm underline-offset-4 font-semibold"
           >
             {item.label}
-          </Link>
+          </NavLink>
         ))}
         <SelectLanguages />
         <UserAuth />
