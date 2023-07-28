@@ -1,30 +1,62 @@
-import { Suspense } from 'react'
-import { Provider } from 'react-redux'
-import { Route, Routes } from 'react-router-dom'
-import { LAYOUTS } from './LayoutRoutes'
-import store from './app/store'
+import { FC, Suspense } from 'react'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { routes, user } from './LayoutRoutes'
 import Footer from './commons/Footer'
 import Header from './commons/Header'
 
-const App = () => {
+const App: FC = () => {
   return (
-    <Provider store={store}>
-      <Header />
+    <BrowserRouter>
       <Routes>
-        {LAYOUTS.map((route) => (
-          <Route
-            key={route.path}
-            path={route.path}
-            element={
-              <Suspense fallback={<div>Loading...</div>}>
-                {route.component}
-              </Suspense>
-            }
-          />
-        ))}
+        {routes.map((route) => {
+          if (!route.private) {
+            return (
+              <Route
+                key={route.path}
+                path={route.path}
+                element={
+                  <>
+                    <Header />
+                    <Suspense fallback={<div>loading...</div>}>
+                      <route.component />
+                    </Suspense>
+                    <Footer />
+                  </>
+                }
+              />
+            )
+          }
+          if (route.private && route.roles?.includes(user.role)) {
+            return (
+              <Route
+                key={route.path}
+                path={route.path}
+                element={
+                  <Suspense fallback={<div>loading...</div>}>
+                    <route.component />
+                  </Suspense>
+                }
+              />
+            )
+          }
+          return (
+            <Route
+              key={route.path}
+              path={route.path}
+              element={
+                user.role !== 'admin' ? (
+                  <Navigate replace to="/" />
+                ) : (
+                  <Suspense fallback={<div>loading...</div>}>
+                    <route.component />
+                  </Suspense>
+                )
+              }
+            />
+          )
+        })}
       </Routes>
-      <Footer />
-    </Provider>
+    </BrowserRouter>
   )
 }
 
