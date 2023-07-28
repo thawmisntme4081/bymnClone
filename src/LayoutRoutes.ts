@@ -6,6 +6,8 @@ const Homepage = lazy(() => import('./pages/Homepage'))
 const Contact = lazy(() => import('./pages/Contact'))
 const Stadium = lazy(() => import('./pages/Stadium'))
 const Club = lazy(() => import('./pages/Club'))
+const AdminClub = lazy(() => import('./pages/Admin/Layouts/Club'))
+const Dashboard = lazy(() => import('./pages/Admin/Layouts/Dashboard'))
 
 export const user: User = {
   role: 'admin',
@@ -33,5 +35,19 @@ export const routes: RouteConfig[] = [
     component: Admin,
     private: true,
     roles: ['admin'],
+    children: [
+      {
+        path: '/admin',
+        component: Dashboard,
+        private: true,
+        roles: ['admin'],
+      },
+      {
+        path: '/admin/club',
+        component: AdminClub,
+        private: true,
+        roles: ['admin'],
+      }
+    ]
   },
 ]

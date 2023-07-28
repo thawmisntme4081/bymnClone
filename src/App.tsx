@@ -1,8 +1,17 @@
 import { FC, Suspense } from 'react'
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import {
+  BrowserRouter,
+  Navigate,
+  Outlet,
+  Route,
+  Routes,
+} from 'react-router-dom'
 import { routes, user } from './LayoutRoutes'
 import Footer from './commons/Footer'
 import Header from './commons/Header'
+import Navbar from './commons/Header/Navbar'
+import { RouteConfig } from './commons/interfaces'
+import Menu from './pages/Admin/Menu'
 
 const App: FC = () => {
   return (
@@ -32,11 +41,30 @@ const App: FC = () => {
                 key={route.path}
                 path={route.path}
                 element={
-                  <Suspense fallback={<div>loading...</div>}>
-                    <route.component />
-                  </Suspense>
+                  <div className="bg-[#2a3447]">
+                    <Navbar />
+                    <div className="flex">
+                      <Menu />
+                      <Outlet />
+                    </div>
+                  </div>
                 }
-              />
+              >
+                {route?.children?.map((routeChild: RouteConfig) => {
+                  console.log(routeChild)
+                  return (
+                    <Route
+                      key={routeChild.path}
+                      path={routeChild.path}
+                      element={
+                        <Suspense fallback={<div>loading...</div>}>
+                          <routeChild.component />
+                        </Suspense>
+                      }
+                    />
+                  )
+                })}
+              </Route>
             )
           }
           return (

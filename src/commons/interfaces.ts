@@ -4,12 +4,13 @@ export interface ILogo {
   link?: string
 }
 export interface User {
-  role: 'admin' | 'user';
+  role: 'admin' | 'user'
 }
 
 export interface RouteConfig {
-  path: string;
-  component: React.FC;
-  private?: boolean;
-  roles?: Array<'admin' | 'user'>;
+  path: string,
+  component: React.FC,
+  private?: boolean,
+  roles?: Array<'admin' | 'user'>,
+  children?: RouteConfig[]
 }
