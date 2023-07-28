@@ -1,5 +1,6 @@
+import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FC, MouseEvent } from 'react'
-import { FaAngleDown } from 'react-icons/fa'
 import { useDispatch } from 'react-redux'
 import useClickAway from '../../hooks/useClickAway'
 import { LANGUAGES } from '../constants'
@@ -30,7 +31,7 @@ const SelectLanguages: FC<ISelectLanguagesProps> = () => {
         onClick={handleClick}
         className="flex items-center gap-1 cursor-pointer"
       >
-        <FaAngleDown />
+        <FontAwesomeIcon icon={faAngleDown} />
         <span className="hover:underline text-sm underline-offset-4 font-semibold pointer-events-none">
           {selectedLang?.label}
         </span>

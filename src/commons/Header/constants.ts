@@ -1,5 +1,5 @@
+import Logo from '../../assets/logo.svg'
 import { ILogo } from '../interfaces'
-import Logo from '../svg/logo.svg'
 
 export const LOGO: ILogo = {
   logo: Logo,

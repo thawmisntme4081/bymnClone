@@ -1,17 +1,17 @@
+import Adidas from '../../assets/Adidas.svg';
+import Adobe from '../../assets/Adobe.svg';
+import Allianz from '../../assets/Allianz.svg';
+import Audi from '../../assets/Audi.svg';
+import Hypovereinsbank from '../../assets/Hypovereinsbank.svg';
+import Konami from '../../assets/Konami.svg';
+import Libertex from '../../assets/Libertex.svg';
+import Paulaner from '../../assets/Paulaner.svg';
+import Sap from '../../assets/Sap.svg';
+import Saskia from '../../assets/Saskia.svg';
+import Telekom from '../../assets/Telekom.svg';
+import Tipico from '../../assets/Tipico.svg';
+import Viesmann from '../../assets/Viesmann.svg';
 import { ILogo } from "../interfaces";
-import Adidas from '../svg/Adidas.svg';
-import Adobe from '../svg/Adobe.svg';
-import Allianz from '../svg/Allianz.svg';
-import Audi from '../svg/Audi.svg';
-import Hypovereinsbank from '../svg/Hypovereinsbank.svg';
-import Konami from '../svg/Konami.svg';
-import Libertex from '../svg/Libertex.svg';
-import Paulaner from '../svg/Paulaner.svg';
-import Sap from '../svg/Sap.svg';
-import Saskia from '../svg/Saskia.svg';
-import Telekom from '../svg/Telekom.svg';
-import Tipico from '../svg/Tipico.svg';
-import Viesmann from '../svg/Viesmann.svg';
 
 export const TOP_PARTNERS: ILogo[] = [
   {

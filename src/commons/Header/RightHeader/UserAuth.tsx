@@ -1,6 +1,6 @@
+import { faCircleUser } from '@fortawesome/free-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FC, MouseEvent } from 'react'
-import { FaCaretDown, FaRegUserCircle } from 'react-icons/fa'
-import { IconContext } from 'react-icons/lib'
 import { NavLink } from 'react-router-dom'
 import useClickAway from '../../hooks/useClickAway'
 import { LINK_AUTH_HEADER } from '../constants'
@@ -19,11 +19,7 @@ const UserAuth: FC<IUserAuthProps> = () => {
         onClick={handleClick}
         className="flex items-center gap-1 cursor-pointer"
       >
-        <IconContext.Provider
-          value={{ size: '24', style: { cursor: 'pointer' } }}
-        >
-          <FaRegUserCircle />
-        </IconContext.Provider>
+        <FontAwesomeIcon icon={faCircleUser} className="text-2xl" />
       </button>
       {isOpen && (
         <div
@@ -31,11 +27,7 @@ const UserAuth: FC<IUserAuthProps> = () => {
           className="absolute right-0 top-11 z-10 bg-primary shadow-[0px_2px_32px_0px_rgba(0,0,0,0.8)] w-60"
         >
           <div className="flex items-center justify-center bg-black/[0.1] h-44">
-            <IconContext.Provider
-              value={{ size: '80', style: { cursor: 'pointer' } }}
-            >
-              <FaRegUserCircle />
-            </IconContext.Provider>
+            <FontAwesomeIcon icon={faCircleUser} className="text-[80px]" />
           </div>
           {LINK_AUTH_HEADER.map((item) => (
             <NavLink
@@ -54,7 +46,7 @@ const UserAuth: FC<IUserAuthProps> = () => {
               <option value="light">Light Mode</option>
               <option value="dark">Dark Mode</option>
             </select>
-            <FaCaretDown className="absolute right-5 top-2/4 -translate-y-1/2" />
+            {/* <FaCaretDown className="absolute right-5 top-2/4 -translate-y-1/2" /> */}
           </div>
         </div>
       )}

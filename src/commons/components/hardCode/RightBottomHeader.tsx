@@ -1,6 +1,6 @@
 import { FC } from 'react'
-import StoreLogo from '../../svg/store.svg'
-import Telekom from '../../svg/telekom_header.svg'
+import StoreLogo from '../../../assets/store.svg'
+import Telekom from '../../../assets/telekom_header.svg'
 
 interface IRightBottomHeaderProps {}
 
