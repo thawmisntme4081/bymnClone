@@ -1,17 +1,9 @@
 import { FC, Suspense } from 'react'
-import {
-  BrowserRouter,
-  Navigate,
-  Outlet,
-  Route,
-  Routes,
-} from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { routes, user } from './LayoutRoutes'
-import Footer from './commons/Footer'
-import Header from './commons/Header'
-import Navbar from './commons/Header/Navbar'
 import { RouteConfig } from './commons/interfaces'
-import Menu from './pages/Admin/Menu'
+import AdminLayout from './layouts/AdminLayout'
+import PublicLayout from './layouts/PublicLayout'
 
 const App: FC = () => {
   return (
@@ -24,13 +16,9 @@ const App: FC = () => {
                 key={route.path}
                 path={route.path}
                 element={
-                  <>
-                    <Header />
-                    <Suspense fallback={<div>loading...</div>}>
-                      <route.component />
-                    </Suspense>
-                    <Footer />
-                  </>
+                  <PublicLayout>
+                    {route.component && <route.component />}
+                  </PublicLayout>
                 }
               />
             )
@@ -40,25 +28,17 @@ const App: FC = () => {
               <Route
                 key={route.path}
                 path={route.path}
-                element={
-                  <div className="bg-[#2a3447]">
-                    <Navbar />
-                    <div className="flex">
-                      <Menu />
-                      <Outlet />
-                    </div>
-                  </div>
-                }
+                element={<AdminLayout />}
               >
                 {route?.children?.map((routeChild: RouteConfig) => {
-                  console.log(routeChild)
                   return (
                     <Route
                       key={routeChild.path}
                       path={routeChild.path}
+                      index={route.path === routeChild.path}
                       element={
                         <Suspense fallback={<div>loading...</div>}>
-                          <routeChild.component />
+                          {routeChild.component && <routeChild.component />}
                         </Suspense>
                       }
                     />
@@ -76,7 +56,7 @@ const App: FC = () => {
                   <Navigate replace to="/" />
                 ) : (
                   <Suspense fallback={<div>loading...</div>}>
-                    <route.component />
+                    {route.component && <route.component />}
                   </Suspense>
                 )
               }

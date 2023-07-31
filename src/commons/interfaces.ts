@@ -9,7 +9,8 @@ export interface User {
 
 export interface RouteConfig {
   path: string,
-  component: React.FC,
+  title?: string,
+  component?: React.FC,
   private?: boolean,
   roles?: Array<'admin' | 'user'>,
   children?: RouteConfig[]

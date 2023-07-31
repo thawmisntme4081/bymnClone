@@ -1,13 +1,13 @@
 import { lazy } from 'react'
 import { RouteConfig, User } from './commons/interfaces'
 
-const Admin = lazy(() => import('./pages/Admin'))
 const Homepage = lazy(() => import('./pages/Homepage'))
 const Contact = lazy(() => import('./pages/Contact'))
 const Stadium = lazy(() => import('./pages/Stadium'))
 const Club = lazy(() => import('./pages/Club'))
 const AdminClub = lazy(() => import('./pages/Admin/Layouts/Club'))
 const Dashboard = lazy(() => import('./pages/Admin/Layouts/Dashboard'))
+const AdminPartners = lazy(() => import('./pages/Admin/Layouts/Partners'))
 
 export const user: User = {
   role: 'admin',
@@ -32,7 +32,6 @@ export const routes: RouteConfig[] = [
   },
   {
     path: '/admin',
-    component: Admin,
     private: true,
     roles: ['admin'],
     children: [
@@ -47,7 +46,13 @@ export const routes: RouteConfig[] = [
         component: AdminClub,
         private: true,
         roles: ['admin'],
-      }
+      },
+      {
+        path: '/admin/partners',
+        component: AdminPartners,
+        private: true,
+        roles: ['admin'],
+      },
     ]
   },
 ]
