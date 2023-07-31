@@ -15,3 +15,6 @@ export const columns: TableColumn<TableData>[] = [
     accessorKey: 'primary',
   },
 ]
+
+export const ONE_MB = 1024 * 1024
+export const allowedExtensions = ['.svg', '.jpg', '.jpeg', '.png']

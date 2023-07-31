@@ -4,3 +4,13 @@ export interface TableData {
   logo: string
   primary: boolean
 }
+
+export interface IAddPartnerProps {
+  title: string
+}
+
+export interface IFormValues {
+  name: string
+  isPrimary: boolean
+  file: string
+}

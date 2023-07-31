@@ -1,5 +1,6 @@
 import { FC } from 'react'
-import BasicTable from '../../../../commons/components/Table'
+import Table from '../../../../commons/components/Table'
+import AddPartner from './AddPartner'
 import { columns } from './constants'
 import { TableData } from './interfaces'
 
@@ -21,7 +22,12 @@ const data: TableData[] = [
 ]
 
 const Partners: FC<IAdminPartners> = () => {
-  return <BasicTable data={data} columns={columns} />
+  return (
+    <>
+      <Table data={data} columns={columns} />
+      {true && <AddPartner title="Add partner" />}
+    </>
+  )
 }
 
 export default Partners
