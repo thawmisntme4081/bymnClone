@@ -10,16 +10,23 @@ import Popup from '../../../../commons/components/Popup'
 import { convertFileToBase64 } from '../../../../commons/helpers'
 import { ONE_MB, allowedExtensions } from './constants'
 import { IAddPartnerProps, IFormValues } from './interfaces'
-import { changeFilename, removeFilename, selectFilename } from './slice'
+import {
+  changeFilename,
+  closeAddPartner,
+  removeFilename,
+  selectFilename,
+} from './slice'
+import { addPartner } from './thunk'
 
 const schema = yup.object({
   name: yup.string().required('Please enter a name'),
   isPrimary: yup.boolean().required(),
-  file: yup.string().required('Please select a file'),
+  logo: yup.string().required('Please select a file'),
+  link: yup.string().url().nullable().notRequired(),
 })
 
 const AddPartner: FC<IAddPartnerProps> = ({ title }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<any>()
   const filename: string = useSelector(selectFilename)
 
   const {
@@ -37,33 +44,33 @@ const AddPartner: FC<IAddPartnerProps> = ({ title }) => {
     if (file) {
       const fileExtension = file.name.split('.').pop()?.toLowerCase()
       if (!allowedExtensions.includes(`.${fileExtension}`)) {
-        setError('file', {
+        setError('logo', {
           type: 'manual',
           message: 'Invalid type file',
         })
         return
       }
       if (file.size > ONE_MB) {
-        setError('file', {
+        setError('logo', {
           type: 'manual',
           message: 'File size should be less than 1MB',
         })
         return
       }
-      clearErrors('file')
+      clearErrors('logo')
       dispatch(changeFilename(file.name))
       const base64 = await convertFileToBase64(file)
-      setValue('file', base64)
+      setValue('logo', base64)
     }
   }
 
   const handleRemoveFile = () => {
-    setValue('file', '')
+    setValue('logo', '')
     dispatch(removeFilename())
   }
 
   const onSubmit = (data: IFormValues) => {
-    console.log(data)
+    dispatch(addPartner(data))
   }
 
   const handleReset = () => {
@@ -71,10 +78,7 @@ const AddPartner: FC<IAddPartnerProps> = ({ title }) => {
     reset()
   }
   return (
-    // <button data-modal-target="addPartner" data-modal-toggle="addPartner" className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-    //   Toggle modal
-    // </button>
-    <Popup title={title}>
+    <Popup title={title} onClose={() => dispatch(closeAddPartner())}>
       <form
         className="p-6 space-y-6"
         onSubmit={handleSubmit(onSubmit)}
@@ -86,9 +90,15 @@ const AddPartner: FC<IAddPartnerProps> = ({ title }) => {
           error={errors.name?.message}
           {...register('name')}
         />
+        <Input
+          type="text"
+          placeholder="Link"
+          error={errors.link?.message}
+          {...register('link')}
+        />
         <InputFile
           onChange={handleFileChange}
-          error={errors.file?.message}
+          error={errors.logo?.message}
           filename={filename}
           onRemoveFile={handleRemoveFile}
         />

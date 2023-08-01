@@ -1,13 +1,14 @@
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { FC, ReactNode } from 'react'
+import { FC, MouseEvent, ReactNode } from 'react'
 
 interface PopupProps {
   title: string
+  onClose: (e: MouseEvent<HTMLButtonElement>) => void
   children: ReactNode
 }
 
-const Popup: FC<PopupProps> = ({ title, children }) => {
+const Popup: FC<PopupProps> = ({ title, onClose, children }) => {
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -17,7 +18,10 @@ const Popup: FC<PopupProps> = ({ title, children }) => {
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                 {title}
               </h3>
-              <button className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+              <button
+                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                onClick={onClose}
+              >
                 <FontAwesomeIcon size="2x" icon={faXmark} />
                 <span className="sr-only">Close modal</span>
               </button>

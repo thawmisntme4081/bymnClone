@@ -4,7 +4,7 @@ import { TableData } from "./interfaces";
 export const columns: TableColumn<TableData>[] = [
   {
     header: 'Partner name',
-    accessorKey: 'partnerName',
+    accessorKey: 'name',
   },
   {
     header: 'Logo',
@@ -12,7 +12,7 @@ export const columns: TableColumn<TableData>[] = [
   },
   {
     header: 'Primary',
-    accessorKey: 'primary',
+    accessorKey: 'isPrimary',
   },
 ]
 

@@ -1,31 +1,34 @@
-import { FC } from 'react'
+import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit'
+import { FC, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { State } from '../../../../app/store'
 import Table from '../../../../commons/components/Table'
 import AddPartner from './AddPartner'
 import { columns } from './constants'
-import { TableData } from './interfaces'
+import { openAddPartner, selectAddPartner, selectPartners } from './slice'
+import { getPartners } from './thunk'
 
 interface IAdminPartners {}
 
-const data: TableData[] = [
-  {
-    _id: 1,
-    partnerName: 'Adidas',
-    logo: 'https://w7.pngwing.com/pngs/488/478/png-transparent-adidas-originals-t-shirt-logo-brand-adidas-angle-text-retail-thumbnail.png',
-    primary: true,
-  },
-  {
-    _id: 2,
-    partnerName: 'Telekom',
-    logo: 'https://w7.pngwing.com/pngs/488/478/png-transparent-adidas-originals-t-shirt-logo-brand-adidas-angle-text-retail-thumbnail.png',
-    primary: false,
-  },
-]
-
 const Partners: FC<IAdminPartners> = () => {
+  const isOpenAddPartner = useSelector(selectAddPartner)
+  const partners = useSelector(selectPartners)
+
+  const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch()
+
+  useEffect(() => {
+    dispatch(getPartners())
+  }, [dispatch])
+
   return (
     <>
-      <Table data={data} columns={columns} />
-      {true && <AddPartner title="Add partner" />}
+      <Table
+        data={partners}
+        columns={columns}
+        buttonAddTitle="Add partner"
+        onOpenPopup={() => dispatch(openAddPartner())}
+      />
+      {isOpenAddPartner && <AddPartner title="Add partner" />}
     </>
   )
 }

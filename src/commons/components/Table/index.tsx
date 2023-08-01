@@ -1,3 +1,5 @@
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   flexRender,
   getCoreRowModel,
@@ -6,7 +8,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { Dispatch, FC, SetStateAction, useState } from 'react'
+import { Dispatch, FC, MouseEvent, SetStateAction, useState } from 'react'
 import { SortingState, TableColumn } from './interfaces'
 
 interface BasicTableProps<T> {
@@ -14,6 +16,8 @@ interface BasicTableProps<T> {
   columns: TableColumn<T>[]
   sorting?: SortingState[]
   setSorting?: Dispatch<SetStateAction<SortingState[]>>
+  onOpenPopup?: (e: MouseEvent<HTMLButtonElement>) => void
+  buttonAddTitle?: string
 }
 
 const BasicTable: FC<BasicTableProps<any>> = ({
@@ -21,6 +25,8 @@ const BasicTable: FC<BasicTableProps<any>> = ({
   columns,
   sorting,
   setSorting,
+  onOpenPopup,
+  buttonAddTitle,
 }) => {
   const [filtering, setFiltering] = useState('')
 
@@ -41,36 +47,35 @@ const BasicTable: FC<BasicTableProps<any>> = ({
 
   return (
     <div className="relative overflow-x-auto">
-      <div className="pb-4">
-        <label htmlFor="table-search" className="sr-only">
-          Search
-        </label>
-        <div className="relative mt-1">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <svg
-              className="w-4 h-4 text-gray-500 dark:text-gray-400"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 20 20"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+      <div className="pb-4 flex items-center justify-between">
+        <div>
+          <label htmlFor="table-search" className="sr-only">
+            Search
+          </label>
+          <div className="relative mt-1">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <FontAwesomeIcon
+                icon={faMagnifyingGlass}
+                className="text-gray-500 dark:text-gray-400"
               />
-            </svg>
+            </div>
+            <input
+              type="text"
+              className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              value={filtering}
+              onChange={(e) => setFiltering(e.target.value)}
+              placeholder="Search for partners"
+            />
           </div>
-          <input
-            type="text"
-            className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            value={filtering}
-            onChange={(e) => setFiltering(e.target.value)}
-            placeholder="Search for partners"
-          />
         </div>
+        {onOpenPopup && buttonAddTitle && (
+          <button
+            className="block text-gray-500 dark:text-gray-400 bg-gray-600 hover:bg-gray-800 focus:outline-none font-medium rounded-lg text-sm px-4 py-2"
+            onClick={onOpenPopup}
+          >
+            {buttonAddTitle}
+          </button>
+        )}
       </div>
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 overflow-hidden shadow-md sm:rounded-lg">
         <thead className="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -114,7 +119,20 @@ const BasicTable: FC<BasicTableProps<any>> = ({
               {row.getVisibleCells().map((cell) => (
                 <td className="p-4" key={cell.id}>
                   <>
-                    {cell.column.id === 'logo' ? (
+                    {cell.column.id === 'name' ? (
+                      <>
+                        {row.original.link ? (
+                          <a
+                            href={row.original.link}
+                            className="hover:text-blue-400"
+                          >
+                            {cell.renderValue() as string}
+                          </a>
+                        ) : (
+                          <span>{cell.renderValue() as string}</span>
+                        )}
+                      </>
+                    ) : cell.column.id === 'logo' ? (
                       <img
                         src={cell.renderValue() as string}
                         alt=""

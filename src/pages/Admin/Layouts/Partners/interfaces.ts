@@ -1,8 +1,11 @@
+import { Maybe } from "yup"
+
 export interface TableData {
   _id: number
-  partnerName: string
+  name: string
   logo: string
-  primary: boolean
+  isPrimary: boolean
+  link?: string
 }
 
 export interface IAddPartnerProps {
@@ -10,7 +13,8 @@ export interface IAddPartnerProps {
 }
 
 export interface IFormValues {
-  name: string
-  isPrimary: boolean
-  file: string
+  name: string;
+  isPrimary: NonNullable<boolean | undefined>;
+  logo: string;
+  link: Maybe<string | null | undefined>;
 }
