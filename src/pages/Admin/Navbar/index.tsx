@@ -5,7 +5,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FC } from 'react'
-import { LOGO } from '../../../commons/Header/constants'
+import { LOGO } from '../../../commons/Header/utils/constants'
 
 interface IAdminNavbarProps {}
 

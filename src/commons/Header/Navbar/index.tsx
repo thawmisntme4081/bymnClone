@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { NavLink } from 'react-router-dom'
-import { NAVBAR_HEADER } from '../constants'
+import { NAVBAR_HEADER } from '../utils/constants'
 
 interface INavbarProps {}
 

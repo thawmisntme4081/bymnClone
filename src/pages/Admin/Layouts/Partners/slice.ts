@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { State } from '../../../../app/store'
+import { addReducer, State } from '../../../../app/store'
 import { addPartner, getPartners } from './thunk'
 
 interface IAdminPartnersState {
@@ -74,4 +74,4 @@ export const {
   closeAddPartner,
 } = slice.actions
 
-export default slice.reducer
+addReducer(slice.name, slice.reducer)

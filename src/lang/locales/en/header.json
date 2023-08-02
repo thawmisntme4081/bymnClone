@@ -1,0 +1,12 @@
+{
+  "language": {
+    "ENGLISH": "English",
+    "FRENCH": "French"
+  },
+  "header": {
+    "CONTACT": "Contact",
+    "STADIUM": "Allianz Arena",
+    "ONLINE_STORE": "Online store",
+    "PRESENTED_BY": "presented by"
+  }
+}

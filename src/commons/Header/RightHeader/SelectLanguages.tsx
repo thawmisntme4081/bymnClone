@@ -3,20 +3,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FC, MouseEvent } from 'react'
 import { useDispatch } from 'react-redux'
 import useClickAway from '../../hooks/useClickAway'
-import { LANGUAGES } from '../constants'
-import getSelectedLang from '../helpers'
-import { changeLang } from '../slice'
+import { LANGUAGES } from '../../constants'
+import { changeLang } from '../utils/slice'
+import { getSelectedLang } from '../utils/helpers'
+import i18next from 'i18next'
+import { useTranslation } from 'react-i18next'
 
 interface ISelectLanguagesProps {}
 
 const SelectLanguages: FC<ISelectLanguagesProps> = () => {
   const dispatch = useDispatch()
+  const { t } = useTranslation()
   const { ref, isOpen, setIsOpen } = useClickAway(false)
   const selectedLang = getSelectedLang()
 
   const handleChangeLang = (value: string) => {
     localStorage.setItem('lang', value as string)
     dispatch(changeLang(value))
+    i18next.changeLanguage(value)
     setIsOpen(false)
   }
 
@@ -33,7 +37,7 @@ const SelectLanguages: FC<ISelectLanguagesProps> = () => {
       >
         <FontAwesomeIcon icon={faAngleDown} />
         <span className="hover:underline text-sm underline-offset-4 font-semibold pointer-events-none">
-          {selectedLang?.label}
+          {t(selectedLang?.label ?? '')}
         </span>
       </button>
       {isOpen && (
@@ -47,7 +51,7 @@ const SelectLanguages: FC<ISelectLanguagesProps> = () => {
               key={item.value}
               className="hover:bg-secondary px-3 cursor-pointer text-sm"
             >
-              {item.label}
+              {t(item.label)}
             </div>
           ))}
         </div>

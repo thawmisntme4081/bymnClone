@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Container from '../components/Container'
 import { SECONDARY_PARTNERS, TOP_PARTNERS } from './constants'
+import FlexCenter from '../components/FlexCenter'
 
 const Footer = () => {
   return (
@@ -10,7 +11,7 @@ const Footer = () => {
           PARTNER
         </Link>
         <div className="max-w-[760px]">
-          <div className="flex items-center justify-center gap-10 mb-8">
+          <FlexCenter className="gap-10 mb-8">
             {TOP_PARTNERS.map((partner) => (
               <a
                 key={partner.link}
@@ -23,8 +24,8 @@ const Footer = () => {
                 </figure>
               </a>
             ))}
-          </div>
-          <div className="flex flex-wrap items-center justify-center gap-x-10 mb-8 px-14">
+          </FlexCenter>
+          <FlexCenter className="flex-wrap gap-x-10 mb-8 px-14">
             {SECONDARY_PARTNERS.map((partner) => (
               <a
                 key={partner.link}
@@ -38,7 +39,7 @@ const Footer = () => {
                 </figure>
               </a>
             ))}
-          </div>
+          </FlexCenter>
         </div>
       </Container>
     </footer>

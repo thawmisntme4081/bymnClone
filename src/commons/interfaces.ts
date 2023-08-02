@@ -15,3 +15,12 @@ export interface RouteConfig {
   roles?: Array<'admin' | 'user'>
   children?: RouteConfig[]
 }
+export interface IReducer {
+  name: string
+  reducer: string
+}
+
+export interface ILang {
+  label: string
+  value: string
+}
