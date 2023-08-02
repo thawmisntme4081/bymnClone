@@ -53,6 +53,6 @@ export const routes: RouteConfig[] = [
         private: true,
         roles: ['admin'],
       },
-    ]
+    ],
   },
 ]

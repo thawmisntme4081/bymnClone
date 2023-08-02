@@ -11,7 +11,7 @@ const AdminLayout: FC<IAdminLayoutProps> = () => {
       <Navbar />
       <div className="flex">
         <Menu />
-        <div className="px-5 py-2 w-full h-screen">
+        <div className="px-5 py-2 w-full min-h-screen">
           <Outlet />
         </div>
       </div>

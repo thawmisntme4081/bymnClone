@@ -7,17 +7,19 @@ interface IHeaderState {
 }
 
 const initialState: IHeaderState = {
-  lang: LANGUAGES[0].value
+  lang: LANGUAGES[0].value,
 }
 
 export const slice = createSlice({
   name: 'header',
   initialState,
   reducers: {
-    changeLang: (state, action: PayloadAction<string>) => { state.lang = action.payload }
-  }
+    changeLang: (state, action: PayloadAction<string>) => {
+      state.lang = action.payload
+    },
+  },
 })
 
 export const { changeLang } = slice.actions
-export const selectLang = ((state: State) => state[slice.name].lang)
+export const selectLang = (state: State) => state[slice.name].lang
 export default slice.reducer

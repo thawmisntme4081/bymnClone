@@ -9,7 +9,7 @@ interface IAdminPartnersState {
   loading: {
     getPartners: boolean
     addPartner: boolean
-  };
+  }
 }
 
 const initialState: IAdminPartnersState = {
@@ -19,17 +19,25 @@ const initialState: IAdminPartnersState = {
   loading: {
     getPartners: false,
     addPartner: false,
-  }
+  },
 }
 
 export const slice = createSlice({
   name: 'adminPartners',
   initialState,
   reducers: {
-    changeFilename: (state, action: PayloadAction<string>) => { state.filename = action.payload },
-    removeFilename: (state) => { state.filename = '' },
-    openAddPartner: (state) => { state.isOpenAddPartner = true },
-    closeAddPartner: (state) => { state.isOpenAddPartner = false }
+    changeFilename: (state, action: PayloadAction<string>) => {
+      state.filename = action.payload
+    },
+    removeFilename: (state) => {
+      state.filename = ''
+    },
+    openAddPartner: (state) => {
+      state.isOpenAddPartner = true
+    },
+    closeAddPartner: (state) => {
+      state.isOpenAddPartner = false
+    },
   },
   extraReducers(builder) {
     builder.addCase(getPartners.pending, (state) => {
@@ -54,10 +62,16 @@ export const slice = createSlice({
   },
 })
 
-export const selectFilename = ((state: State) => state[slice.name].filename)
-export const selectAddPartner = ((state: State) => state[slice.name].isOpenAddPartner)
-export const selectPartners = ((state: State) => state[slice.name].partners)
+export const selectFilename = (state: State) => state[slice.name].filename
+export const selectAddPartner = (state: State) =>
+  state[slice.name].isOpenAddPartner
+export const selectPartners = (state: State) => state[slice.name].partners
 
-export const { changeFilename, removeFilename, openAddPartner, closeAddPartner } = slice.actions
+export const {
+  changeFilename,
+  removeFilename,
+  openAddPartner,
+  closeAddPartner,
+} = slice.actions
 
 export default slice.reducer

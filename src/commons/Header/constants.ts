@@ -3,13 +3,13 @@ import { ILogo } from '../interfaces'
 
 export const LOGO: ILogo = {
   logo: Logo,
-  alt: "FC Bayern Munich official logo"
+  alt: 'FC Bayern Munich official logo',
 }
 
 export const titleLogo: string = 'FC Bayern München'
 
 interface ILang {
-  label: string,
+  label: string
   value: string
 }
 
@@ -19,7 +19,7 @@ export const LANGUAGES: ILang[] = [
 ]
 
 interface ILinkHeader {
-  label: string,
+  label: string
   to: string
 }
 
