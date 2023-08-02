@@ -1,13 +1,13 @@
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { FC, MouseEvent } from 'react'
-import { useDispatch } from 'react-redux'
-import useClickAway from '../../hooks/useClickAway'
-import { LANGUAGES } from '../../constants'
-import { changeLang } from '../utils/slice'
-import { getSelectedLang } from '../utils/helpers'
 import i18next from 'i18next'
+import { FC, MouseEvent } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useDispatch } from 'react-redux'
+import { LANGUAGES } from '../../constants'
+import useClickAway from '../../hooks/useClickAway'
+import { getSelectedLang } from '../utils/helpers'
+import { changeLang } from '../utils/slice'
 
 interface ISelectLanguagesProps {}
 

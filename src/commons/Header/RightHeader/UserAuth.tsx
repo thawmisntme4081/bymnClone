@@ -2,9 +2,9 @@ import { faCircleUser } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FC, MouseEvent } from 'react'
 import { NavLink } from 'react-router-dom'
+import FlexCenter from '../../components/FlexCenter'
 import useClickAway from '../../hooks/useClickAway'
 import { LINK_AUTH_HEADER } from '../utils/constants'
-import FlexCenter from '../../components/FlexCenter'
 
 interface IUserAuthProps {}
 

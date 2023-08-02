@@ -19,12 +19,12 @@ export const store: ToolkitStore = configureStore({
 })
 
 export interface State extends ReturnType<typeof store.getState> {}
-export interface AppDispatch extends ThunkDispatch<
-  ReturnType<typeof store.getState>,
-  undefined,
-  AnyAction
-> {}
-
+export interface AppDispatch
+  extends ThunkDispatch<
+    ReturnType<typeof store.getState>,
+    undefined,
+    AnyAction
+  > {}
 
 export const appDispatch: AppDispatch = store.dispatch
 

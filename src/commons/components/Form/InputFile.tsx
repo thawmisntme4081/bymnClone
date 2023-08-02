@@ -1,8 +1,8 @@
 import { faCloudArrowUp, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FC, forwardRef } from 'react'
-import { InputFileProps } from './interfaces'
 import FlexCenter from '../FlexCenter'
+import { InputFileProps } from './interfaces'
 
 const InputFile: FC<InputFileProps> = forwardRef<
   HTMLInputElement,

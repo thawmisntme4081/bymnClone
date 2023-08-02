@@ -10,7 +10,11 @@ interface FlexCenterProps {
 const FlexCenter = forwardRef<HTMLDivElement, FlexCenterProps>(
   ({ children, className, ...others }, ref) => {
     return (
-      <div ref={ref} className={`flex items-center justify-center ${className}`}  {...others}>
+      <div
+        ref={ref}
+        className={`flex items-center justify-center ${className}`}
+        {...others}
+      >
         {children}
       </div>
     )
