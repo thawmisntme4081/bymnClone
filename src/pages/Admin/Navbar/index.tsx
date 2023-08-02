@@ -11,7 +11,7 @@ interface IAdminNavbarProps {}
 
 const Navbar: FC<IAdminNavbarProps> = () => {
   return (
-    <div className="p-5 flex items-center justify-between">
+    <div className="p-5 flex-between">
       <figure className="flex items-center font-bold gap-3 h-8 w-8">
         <img className="w-full" src={LOGO.logo} alt={LOGO.alt} />
       </figure>
@@ -19,7 +19,7 @@ const Navbar: FC<IAdminNavbarProps> = () => {
         <FontAwesomeIcon icon={faMagnifyingGlass} size="lg" />
         <div className="relative">
           <FontAwesomeIcon icon={faBell} size="lg" />
-          <span className="absolute flex items-center justify-center bg-primary text-white w-4 h-4 rounded-full -top-2 -right-2 text-[12px]">
+          <span className="flex-center absolute bg-primary text-white w-4 h-4 rounded-full -top-2 -right-2 text-[12px]">
             1
           </span>
         </div>

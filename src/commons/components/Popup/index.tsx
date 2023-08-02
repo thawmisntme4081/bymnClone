@@ -11,10 +11,10 @@ interface PopupProps {
 const Popup: FC<PopupProps> = ({ title, onClose, children }) => {
   return (
     <>
-      <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+      <div className="flex-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
         <div className="relative w-full max-w-2xl max-h-full">
           <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+            <div className="flex-between p-4 border-b rounded-t dark:border-gray-600">
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                 {title}
               </h3>

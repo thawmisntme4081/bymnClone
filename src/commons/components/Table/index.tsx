@@ -47,7 +47,7 @@ const BasicTable: FC<BasicTableProps<any>> = ({
 
   return (
     <div className="relative overflow-x-auto">
-      <div className="pb-4 flex items-center justify-between">
+      <div className="pb-4 flex-between">
         <div>
           <label htmlFor="table-search" className="sr-only">
             Search

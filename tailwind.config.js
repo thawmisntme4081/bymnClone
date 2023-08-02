@@ -18,5 +18,30 @@ module.exports = {
         option: { backgroundColor: '#1E293B' },
       })
     }),
+    ({ addUtilities }) => {
+      addUtilities({
+        '.flex-center': {
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
+        '.flex-between': {
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        },
+        '.flex-end': {
+          display: 'flex',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+        },
+        '.flex-col-center': {
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'column',
+        },
+      })
+    },
   ],
 }

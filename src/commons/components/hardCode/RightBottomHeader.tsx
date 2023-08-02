@@ -1,14 +1,14 @@
 import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 import StoreLogo from '../../../assets/store.svg'
 import Telekom from '../../../assets/telekom_header.svg'
-import { useTranslation } from 'react-i18next'
 
 interface IRightBottomHeaderProps {}
 
 const RightBottomHeader: FC<IRightBottomHeaderProps> = () => {
   const { t } = useTranslation()
   return (
-    <div className="flex items-center justify-end">
+    <div className="flex-end">
       <div className="flex items-end gap-3 cursor-pointer hover:opacity-90">
         <span className="text-xs">{t('header.PRESENTED_BY')}</span>
         <figure>

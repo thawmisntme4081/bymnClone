@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, memo } from 'react'
 
 import Container from '../components/Container'
 import LeftHeader from './LeftHeader'
@@ -11,7 +11,7 @@ const Header: FC<IHeaderProps> = () => {
   return (
     <>
       <header className="bg-primary relative">
-        <Container className="flex justify-between py-4">
+        <Container className="flex-between py-4">
           <LeftHeader />
           <RightHeader />
         </Container>
@@ -21,4 +21,4 @@ const Header: FC<IHeaderProps> = () => {
   )
 }
 
-export default Header
+export default memo(Header)

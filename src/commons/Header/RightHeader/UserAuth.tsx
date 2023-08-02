@@ -2,7 +2,6 @@ import { faCircleUser } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FC, MouseEvent } from 'react'
 import { NavLink } from 'react-router-dom'
-import FlexCenter from '../../components/FlexCenter'
 import useClickAway from '../../hooks/useClickAway'
 import { LINK_AUTH_HEADER } from '../utils/constants'
 
@@ -27,9 +26,9 @@ const UserAuth: FC<IUserAuthProps> = () => {
           ref={ref}
           className="absolute right-0 top-11 z-10 bg-primary shadow-[0px_2px_32px_0px_rgba(0,0,0,0.8)] w-60"
         >
-          <FlexCenter className="bg-black/[0.1] h-44">
+          <div className="flex-center bg-black/[0.1] h-44">
             <FontAwesomeIcon icon={faCircleUser} className="text-[80px]" />
-          </FlexCenter>
+          </div>
           {LINK_AUTH_HEADER.map((item) => (
             <NavLink
               key={item.to}

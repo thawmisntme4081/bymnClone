@@ -1,7 +1,7 @@
+import { memo } from 'react'
 import { Link } from 'react-router-dom'
 import Container from '../components/Container'
 import { SECONDARY_PARTNERS, TOP_PARTNERS } from './constants'
-import FlexCenter from '../components/FlexCenter'
 
 const Footer = () => {
   return (
@@ -11,7 +11,7 @@ const Footer = () => {
           PARTNER
         </Link>
         <div className="max-w-[760px]">
-          <FlexCenter className="gap-10 mb-8">
+          <div className="flex-center gap-10 mb-8">
             {TOP_PARTNERS.map((partner) => (
               <a
                 key={partner.link}
@@ -24,8 +24,8 @@ const Footer = () => {
                 </figure>
               </a>
             ))}
-          </FlexCenter>
-          <FlexCenter className="flex-wrap gap-x-10 mb-8 px-14">
+          </div>
+          <div className="flex-center flex-wrap gap-x-10 mb-8 px-14">
             {SECONDARY_PARTNERS.map((partner) => (
               <a
                 key={partner.link}
@@ -39,11 +39,11 @@ const Footer = () => {
                 </figure>
               </a>
             ))}
-          </FlexCenter>
+          </div>
         </div>
       </Container>
     </footer>
   )
 }
 
-export default Footer
+export default memo(Footer)
