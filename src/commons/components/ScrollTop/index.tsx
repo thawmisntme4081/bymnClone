@@ -13,7 +13,7 @@ const ScrollTop: FC<ScrollTopProps> = () => {
       className="px-4 py-2 fixed -translate-x-1/2 bottom-10 left-1/2 bg-primary hover:bg-[#ff4d5b] rounded-full font-semibold"
       onClick={handleScrollTop}
     >
-      {t('scrollToTop')}
+      {t('SCROLL_TO_TOP')}
     </button>
   )
 }
