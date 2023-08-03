@@ -6,8 +6,9 @@ import {
   ThunkDispatch,
 } from '@reduxjs/toolkit'
 import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore'
+import { slice } from '../commons/Header/utils/slice'
 
-let combinedReducers = {}
+let combinedReducers = { [slice.name]: slice.reducer }
 
 export const addReducer = (name: string, reducer: Reducer<any, any>) => {
   combinedReducers = { ...combinedReducers, [name]: reducer }

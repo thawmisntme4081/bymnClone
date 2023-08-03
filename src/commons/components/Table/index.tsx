@@ -14,6 +14,7 @@ const Table = <T extends object>({
   buttonAddTitle,
   haveAction,
   renderCell,
+  onDelete,
 }: TableProps<T>) => {
   const [filtering, setFiltering] = useState('')
   const table = useReactTable({
@@ -64,6 +65,8 @@ const Table = <T extends object>({
           rows={table.getRowModel().rows}
           haveAction={haveAction}
           renderCell={renderCell}
+          onDelete={onDelete}
+          colSpan={haveAction ? columns.length + 1 : columns.length}
         />
       </table>
     </div>

@@ -11,6 +11,9 @@ const lang = {
       EDIT: 'Edit',
       DELETE: 'Delete',
       SCROLL_TO_TOP: 'Scroll to top',
+      NO_DATA: 'No data found',
+      YES: 'Yes',
+      NO: 'No',
     },
     fr: {
       ...headerLang.fr,
@@ -18,6 +21,9 @@ const lang = {
       EDIT: 'Modifier',
       DELETE: 'Supprimer',
       SCROLL_TO_TOP: 'Défiler vers le haut',
+      NO_DATA: 'Aucune donnée disponible',
+      YES: 'Oui',
+      NO: 'Non',
     },
   },
 }

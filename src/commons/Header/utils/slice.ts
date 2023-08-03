@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { addReducer, State } from '../../../app/store'
+import { State } from '../../../app/store'
 import { DEFAULT_LANGUAGE } from '../../constants'
 
 interface IHeaderState {
@@ -22,5 +22,3 @@ export const slice = createSlice({
 
 export const { changeLang } = slice.actions
 export const selectLang = (state: State) => state[slice.name].lang
-
-addReducer(slice.name, slice.reducer)

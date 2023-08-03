@@ -1,4 +1,4 @@
-import { partnersLang } from './Layouts/Partners/lang'
+import { partnersLang } from './Layouts/Partners/utils/lang'
 
 export const adminLang = {
   admin: {

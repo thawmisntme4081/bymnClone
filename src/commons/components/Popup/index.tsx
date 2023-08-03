@@ -7,14 +7,24 @@ interface PopupProps {
   title?: string
   onClose: (e: MouseEvent<HTMLButtonElement>) => void
   children: ReactNode
+  size?: 'default' | 'small' | 'large'
 }
 
-const Popup: FC<PopupProps> = ({ title, onClose, children }) => {
+const Popup: FC<PopupProps> = ({
+  title,
+  onClose,
+  size = 'default',
+  children,
+}) => {
   const { t } = useTranslation('admin')
   return (
     <>
       <div className="flex-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-        <div className="relative w-full max-w-2xl max-h-full">
+        <div
+          className={`relative w-full ${
+            size === 'small' ? 'max-w-md' : 'max-w-2xl'
+          }  max-h-full`}
+        >
           <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <div
               className={`flex-between p-4 rounded-t dark:border-gray-600 ${

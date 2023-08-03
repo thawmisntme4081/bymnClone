@@ -1,25 +1,33 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { addReducer, State } from '../../../../app/store'
-import { addPartner, getPartners } from './thunk'
+import { addReducer, State } from '../../../../../app/store'
+import { addPartner, deletePartner, getPartners } from './thunk'
 
 interface IAdminPartnersState {
   filename: string
-  isOpenAddPartner: boolean
+  openPopup: {
+    isOpenAddPartner: boolean
+    openConfirm: boolean
+  }
   partners: any
   loading: {
     getPartners: boolean
     addPartner: boolean
   }
+  partnerId: string
 }
 
 const initialState: IAdminPartnersState = {
   filename: '',
-  isOpenAddPartner: false,
+  openPopup: {
+    isOpenAddPartner: false,
+    openConfirm: false,
+  },
   partners: [],
   loading: {
     getPartners: false,
     addPartner: false,
   },
+  partnerId: '',
 }
 
 export const slice = createSlice({
@@ -33,10 +41,17 @@ export const slice = createSlice({
       state.filename = ''
     },
     openAddPartner: (state) => {
-      state.isOpenAddPartner = true
+      state.openPopup.isOpenAddPartner = true
     },
     closeAddPartner: (state) => {
-      state.isOpenAddPartner = false
+      state.openPopup.isOpenAddPartner = false
+    },
+    closeConfirmPopup: (state) => {
+      state.openPopup.openConfirm = false
+    },
+    clickDeletePartner: (state, action: PayloadAction<string>) => {
+      state.partnerId = action.payload
+      state.openPopup.openConfirm = true
     },
   },
   extraReducers(builder) {
@@ -59,19 +74,28 @@ export const slice = createSlice({
     builder.addCase(addPartner.rejected, (state) => {
       state.loading.addPartner = false
     })
+    builder.addCase(deletePartner.fulfilled, (state) => {
+      state.partnerId = ''
+      state.openPopup.openConfirm = false
+    })
   },
 })
 
 export const selectFilename = (state: State) => state[slice.name].filename
 export const selectAddPartner = (state: State) =>
-  state[slice.name].isOpenAddPartner
+  state[slice.name].openPopup.isOpenAddPartner
 export const selectPartners = (state: State) => state[slice.name].partners
+export const selectPartnerId = (state: State) => state[slice.name].partnerId
+export const selectPopupConfirm = (state: State) =>
+  state[slice.name].openPopup.openConfirm
 
 export const {
   changeFilename,
   removeFilename,
   openAddPartner,
   closeAddPartner,
+  clickDeletePartner,
+  closeConfirmPopup,
 } = slice.actions
 
 addReducer(slice.name, slice.reducer)

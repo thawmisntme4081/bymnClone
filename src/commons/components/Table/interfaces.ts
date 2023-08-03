@@ -25,4 +25,5 @@ export interface TableProps<T extends object> {
   buttonAddTitle?: string
   haveAction?: boolean
   renderCell: any
+  onDelete: (id: string) => void
 }

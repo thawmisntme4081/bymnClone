@@ -5,15 +5,23 @@ import { useDispatch, useSelector } from 'react-redux'
 import { State } from '../../../../app/store'
 import Table from '../../../../commons/components/Table'
 import AddPartner from './AddPartner'
-import { columns } from './constants'
-import { openAddPartner, selectAddPartner, selectPartners } from './slice'
-import { getPartners } from './thunk'
+import PopupConfirm from './PopupConfirm'
+import { columns } from './utils/constants'
+import {
+  clickDeletePartner,
+  openAddPartner,
+  selectAddPartner,
+  selectPartners,
+  selectPopupConfirm,
+} from './utils/slice'
+import { getPartners } from './utils/thunk'
 
 interface IAdminPartners {}
 
 const Partners: FC<IAdminPartners> = () => {
   const isOpenAddPartner = useSelector(selectAddPartner)
   const partners = useSelector(selectPartners)
+  const openConfirm = useSelector(selectPopupConfirm)
 
   const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch()
 
@@ -45,17 +53,23 @@ const Partners: FC<IAdminPartners> = () => {
     }
   }
 
+  const handleClickDelete = (id: string) => {
+    dispatch(clickDeletePartner(id))
+  }
+
   return (
     <>
       <Table
         data={partners}
         columns={columns}
-        buttonAddTitle="ADD_PARTNER"
+        buttonAddTitle="partners.ADD_PARTNER"
         onOpenPopup={() => dispatch(openAddPartner())}
         renderCell={renderCell}
         haveAction
+        onDelete={handleClickDelete}
       />
-      {isOpenAddPartner && <AddPartner title="ADD_PARTNER" />}
+      {isOpenAddPartner && <AddPartner title="partners.ADD_PARTNER" />}
+      {openConfirm && <PopupConfirm />}
     </>
   )
 }

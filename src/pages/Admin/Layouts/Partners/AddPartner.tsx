@@ -8,15 +8,16 @@ import Input from '../../../../commons/components/Form/Input'
 import InputFile from '../../../../commons/components/Form/InputFile'
 import Popup from '../../../../commons/components/Popup'
 import { convertFileToBase64 } from '../../../../commons/helpers'
-import { ONE_MB, allowedExtensions } from './constants'
-import { IAddPartnerProps, IFormValues } from './interfaces'
+
+import { ONE_MB, allowedExtensions } from './utils/constants'
+import { IAddPartnerProps, IFormValues } from './utils/interfaces'
 import {
   changeFilename,
   closeAddPartner,
   removeFilename,
   selectFilename,
-} from './slice'
-import { addPartner } from './thunk'
+} from './utils/slice'
+import { addPartner } from './utils/thunk'
 
 const schema = yup.object({
   name: yup.string().required('Please enter a name'),

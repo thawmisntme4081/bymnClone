@@ -1,4 +1,4 @@
-import { TableColumn } from '../../../../commons/components/Table/interfaces'
+import { TableColumn } from '../../../../../commons/components/Table/interfaces'
 import { TableData } from './interfaces'
 
 export const columns: TableColumn<TableData>[] = [

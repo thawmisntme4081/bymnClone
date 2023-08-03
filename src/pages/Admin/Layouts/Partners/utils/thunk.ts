@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { publicAxios } from '../../../../app/axios'
+import { publicAxios } from '../../../../../app/axios'
 import { IFormValues } from './interfaces'
 
 export const getPartners = createAsyncThunk<
@@ -22,6 +22,19 @@ export const addPartner = createAsyncThunk<
 >('admin/addPartner', async (params, { rejectWithValue }) => {
   try {
     const response = await publicAxios.post('partners', params)
+    return response.data
+  } catch (error) {
+    return rejectWithValue(error)
+  }
+})
+
+export const deletePartner = createAsyncThunk<
+  any,
+  string,
+  { rejectValue: unknown }
+>('admin/deletePartner', async (id, { rejectWithValue }) => {
+  try {
+    const response = await publicAxios.delete(`partners/${id}`)
     return response.data
   } catch (error) {
     return rejectWithValue(error)
