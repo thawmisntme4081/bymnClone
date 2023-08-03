@@ -1,15 +1,18 @@
+import i18next from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import { getLanguage } from '../commons/helpers'
-import i18next from 'i18next'
-import HEADER_EN from './locales/en/header.json'
-import HEADER_FR from './locales/fr/header.json'
+import lang from './lang'
 
 const resources = {
   en: {
-    home : HEADER_EN
+    commons: lang.commons.en,
+    admin: lang.admin.en,
+    // home: HEADER_EN,
   },
   fr: {
-    home : HEADER_FR
+    commons: lang.commons.fr,
+    admin: lang.admin.fr,
+    // home: HEADER_FR,
   },
 }
 
@@ -19,8 +22,8 @@ i18next
     resources,
     lng: getLanguage(),
     fallbackLng: 'en',
-    ns: ['home'],
-    defaultNS: 'home',
+    ns: ['home', 'admin', 'commons'],
+    defaultNS: 'commons',
     interpolation: {
       escapeValue: false,
     },

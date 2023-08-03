@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# A script to quickly create a branch, add a commit, and push it up.
+# A script to quickly commit, and push it up.
 
 set -eo pipefail
 

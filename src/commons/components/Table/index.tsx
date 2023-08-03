@@ -1,49 +1,27 @@
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from '@tanstack/react-table'
-import { Dispatch, FC, MouseEvent, SetStateAction, useState } from 'react'
-import { SortingState, TableColumn } from './interfaces'
+import { getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import TableBody from './TableBody'
+import TableHead from './TableHead'
+import { TableProps } from './interfaces'
 
-interface BasicTableProps<T> {
-  data: T[]
-  columns: TableColumn<T>[]
-  sorting?: SortingState[]
-  setSorting?: Dispatch<SetStateAction<SortingState[]>>
-  onOpenPopup?: (e: MouseEvent<HTMLButtonElement>) => void
-  buttonAddTitle?: string
-}
-
-const BasicTable: FC<BasicTableProps<any>> = ({
+const Table = <T extends object>({
   data,
   columns,
-  sorting,
-  setSorting,
   onOpenPopup,
   buttonAddTitle,
-}) => {
+  haveAction,
+  renderCell,
+}: TableProps<T>) => {
   const [filtering, setFiltering] = useState('')
-
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    state: {
-      sorting: sorting,
-      globalFilter: filtering,
-    },
-    onSortingChange: setSorting,
-    onGlobalFilterChange: setFiltering,
   })
+  const { t } = useTranslation('admin')
 
   return (
     <div className="relative overflow-x-auto">
@@ -73,116 +51,23 @@ const BasicTable: FC<BasicTableProps<any>> = ({
             className="block text-gray-500 dark:text-gray-400 bg-gray-600 hover:bg-gray-800 focus:outline-none font-medium rounded-lg text-sm px-4 py-2"
             onClick={onOpenPopup}
           >
-            {buttonAddTitle}
+            {t(buttonAddTitle)}
           </button>
         )}
       </div>
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 overflow-hidden shadow-md sm:rounded-lg">
-        <thead className="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th
-                  scope="col"
-                  className="p-4"
-                  key={header.id}
-                  onClick={header.column.getToggleSortingHandler()}
-                >
-                  {header.isPlaceholder ? null : (
-                    <div>
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
-                      {/* {
-                        { asc: '🔼', desc: '🔽' }[
-                          header.column.getIsSorted() ?? null
-                        ]
-                      } */}
-                    </div>
-                  )}
-                </th>
-              ))}
-              <th scope="col" className="p-4">
-                Action
-              </th>
-            </tr>
-          ))}
-        </thead>
-
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr
-              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-              key={row.id}
-            >
-              {row.getVisibleCells().map((cell) => (
-                <td className="p-4" key={cell.id}>
-                  <>
-                    {cell.column.id === 'name' ? (
-                      <>
-                        {row.original.link ? (
-                          <a
-                            href={row.original.link}
-                            className="hover:text-blue-400"
-                          >
-                            {cell.renderValue() as string}
-                          </a>
-                        ) : (
-                          <span>{cell.renderValue() as string}</span>
-                        )}
-                      </>
-                    ) : cell.column.id === 'logo' ? (
-                      <img
-                        src={cell.renderValue() as string}
-                        alt=""
-                        loading="lazy"
-                        width={60}
-                      />
-                    ) : (
-                      flexRender(cell.column.columnDef.cell, cell.getContext())
-                    )}
-                  </>
-                </td>
-              ))}
-              <td className="p-4 space-x-3">
-                <a
-                  href="#"
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                  Edit
-                </a>
-                <a
-                  href="#"
-                  className="font-medium text-red-600 dark:text-red-500 hover:underline"
-                >
-                  Delete
-                </a>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-        {/* <tfoot>
-          <button onClick={() => table.setPageIndex(0)}>First page</button>
-          <button
-            disabled={!table.getCanPreviousPage()}
-            onClick={() => table.previousPage()}
-          >
-            Previous page
-          </button>
-          <button
-            disabled={!table.getCanNextPage()}
-            onClick={() => table.nextPage()}
-          >
-            Next page
-          </button>
-          <button onClick={() => table.setPageIndex(table.getPageCount() - 1)}>
-            Last page
-          </button>
-        </tfoot> */}
+        <TableHead
+          headerGroups={table.getHeaderGroups()}
+          haveAction={haveAction}
+        />
+        <TableBody
+          rows={table.getRowModel().rows}
+          haveAction={haveAction}
+          renderCell={renderCell}
+        />
       </table>
     </div>
   )
 }
 
-export default BasicTable
+export default Table

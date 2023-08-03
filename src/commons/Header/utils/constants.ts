@@ -10,8 +10,8 @@ export const LOGO: ILogo = {
 export const TITLE_LOGO: string = 'FC Bayern München'
 
 export const NAV_TOP_HEADER: ILinkHeader[] = [
-  { label: 'header.CONTACT', to: '/contact' },
-  { label: 'header.STADIUM', to: '/stadium' },
+  { label: 'CONTACT', to: '/contact' },
+  { label: 'STADIUM', to: '/stadium' },
 ]
 
 export const LINK_AUTH_HEADER: ILinkHeader[] = [
