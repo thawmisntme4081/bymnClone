@@ -10,9 +10,10 @@ export interface TableData {
 
 export interface IAddPartnerProps {
   title: string
+  editMode: boolean
 }
 
-export interface IFormValues {
+export interface IPartners {
   name: string
   isPrimary: NonNullable<boolean | undefined>
   logo: string

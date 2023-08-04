@@ -12,7 +12,9 @@ import { columns } from './utils/constants'
 import {
   clickDeletePartner,
   openAddPartner,
+  openUpdatePartner,
   selectAddPartner,
+  selectEditMode,
   selectPartners,
   selectPopupConfirm,
 } from './utils/slice'
@@ -24,7 +26,7 @@ const Partners: FC<IAdminPartners> = () => {
   const isOpenAddPartner = useAppSelector(selectAddPartner)
   const partners = useAppSelector(selectPartners)
   const openConfirm = useAppSelector(selectPopupConfirm)
-
+  const isEditMode = useAppSelector(selectEditMode)
   const thunkDispatch = useThunkDispatch()
   const dispatch = useAppDispatch()
 
@@ -60,6 +62,10 @@ const Partners: FC<IAdminPartners> = () => {
     dispatch(clickDeletePartner(id))
   }
 
+  const handleUpdate = (id: string) => {
+    dispatch(openUpdatePartner(id))
+  }
+
   return (
     <>
       <Table
@@ -70,8 +76,11 @@ const Partners: FC<IAdminPartners> = () => {
         renderCell={renderCell}
         haveAction
         onDelete={handleClickDelete}
+        onUpdate={handleUpdate}
       />
-      {isOpenAddPartner && <AddPartner title="partners.ADD_PARTNER" />}
+      {isOpenAddPartner && (
+        <AddPartner title="partners.ADD_PARTNER" editMode={isEditMode} />
+      )}
       {openConfirm && <PopupConfirm />}
     </>
   )

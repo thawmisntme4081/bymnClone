@@ -1,4 +1,5 @@
 import { DEFAULT_LANGUAGE, localStorageKeys } from './constants'
+import { IObject } from './interfaces'
 
 export const convertFileToBase64 = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -11,3 +12,6 @@ export const convertFileToBase64 = (file: File): Promise<string> => {
 
 export const getLanguage = () =>
   localStorage.getItem(localStorageKeys.KEY_LANGUAGE) || DEFAULT_LANGUAGE
+
+export const filterObjectByFormField = (object: IObject, fields: string[]) =>
+  Object.fromEntries(fields.map((key) => [key, object[key]]))

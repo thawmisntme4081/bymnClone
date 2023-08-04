@@ -24,3 +24,7 @@ export interface ILang {
   label: string
   value: string
 }
+
+export interface IObject {
+  [key: string]: any
+}

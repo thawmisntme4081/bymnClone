@@ -26,4 +26,5 @@ export interface TableProps<T extends object> {
   haveAction?: boolean
   renderCell: any
   onDelete: (id: string) => void
+  onUpdate: (id: string) => void
 }

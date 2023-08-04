@@ -6,7 +6,7 @@ import { InputFileProps } from './interfaces'
 const InputFile: FC<InputFileProps> = forwardRef<
   HTMLInputElement,
   InputFileProps
->(({ error, filename, onRemoveFile, ...rest }, ref) => {
+>(({ error, filename, onRemoveFile, image, ...rest }, ref) => {
   return (
     <>
       {filename ? (
@@ -15,6 +15,17 @@ const InputFile: FC<InputFileProps> = forwardRef<
           <FontAwesomeIcon
             icon={faXmark}
             className="cursor-pointer"
+            onClick={onRemoveFile}
+          />
+        </div>
+      ) : image ? (
+        <div className="relative">
+          <figure className="flex-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:hover:border-gray-500">
+            <img src={image} alt="" loading="lazy" />
+          </figure>
+          <FontAwesomeIcon
+            icon={faXmark}
+            className="cursor-pointer absolute top-3 right-3 dark:hover:bg-gray-600 hover:bg-gray-100 px-3.5 py-3 rounded-full"
             onClick={onRemoveFile}
           />
         </div>

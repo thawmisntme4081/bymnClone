@@ -28,4 +28,3 @@ const lang = {
   },
 }
 export default lang
-console.log(lang)
