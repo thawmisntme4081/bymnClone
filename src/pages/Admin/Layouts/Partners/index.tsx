@@ -1,9 +1,11 @@
-import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit'
 import { Cell, flexRender } from '@tanstack/react-table'
 import { FC, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { State } from '../../../../app/store'
+import { useSelector } from 'react-redux'
 import Table from '../../../../commons/components/Table'
+import {
+  useAppDispatch,
+  useThunkDispatch,
+} from '../../../../commons/hooks/useDispatch'
 import AddPartner from './AddPartner'
 import PopupConfirm from './PopupConfirm'
 import { columns } from './utils/constants'
@@ -23,11 +25,12 @@ const Partners: FC<IAdminPartners> = () => {
   const partners = useSelector(selectPartners)
   const openConfirm = useSelector(selectPopupConfirm)
 
-  const dispatch: ThunkDispatch<State, void, AnyAction> = useDispatch()
+  const thunkDispatch = useThunkDispatch()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(getPartners())
-  }, [dispatch])
+    thunkDispatch(getPartners())
+  }, [thunkDispatch])
 
   const renderCell = (cell: Cell<any, unknown>, link: string) => {
     switch (cell.column.id) {

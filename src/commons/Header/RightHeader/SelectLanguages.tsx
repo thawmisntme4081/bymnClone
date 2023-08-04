@@ -3,16 +3,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import i18next from 'i18next'
 import { FC, MouseEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch } from 'react-redux'
 import { LANGUAGES } from '../../constants'
 import useClickAway from '../../hooks/useClickAway'
+import { useAppDispatch } from '../../hooks/useDispatch'
 import { getSelectedLang } from '../utils/helpers'
 import { changeLang } from '../utils/slice'
 
 interface ISelectLanguagesProps {}
 
 const SelectLanguages: FC<ISelectLanguagesProps> = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const { t } = useTranslation()
   const { ref, isOpen, setIsOpen } = useClickAway(false)
   const selectedLang = getSelectedLang()

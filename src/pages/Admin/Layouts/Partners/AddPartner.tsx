@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { ChangeEvent, FC } from 'react'
 import { useForm } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import * as yup from 'yup'
 import Checkbox from '../../../../commons/components/Form/Checkbox'
 import Input from '../../../../commons/components/Form/Input'
@@ -9,6 +9,10 @@ import InputFile from '../../../../commons/components/Form/InputFile'
 import Popup from '../../../../commons/components/Popup'
 import { convertFileToBase64 } from '../../../../commons/helpers'
 
+import {
+  useAppDispatch,
+  useThunkDispatch,
+} from '../../../../commons/hooks/useDispatch'
 import { ONE_MB, allowedExtensions } from './utils/constants'
 import { IAddPartnerProps, IFormValues } from './utils/interfaces'
 import {
@@ -27,7 +31,8 @@ const schema = yup.object({
 })
 
 const AddPartner: FC<IAddPartnerProps> = ({ title }) => {
-  const dispatch = useDispatch<any>()
+  const dispatch = useAppDispatch()
+  const thunkDispatch = useThunkDispatch()
   const filename: string = useSelector(selectFilename)
 
   const {
@@ -71,7 +76,7 @@ const AddPartner: FC<IAddPartnerProps> = ({ title }) => {
   }
 
   const onSubmit = (data: IFormValues) => {
-    dispatch(addPartner(data))
+    thunkDispatch(addPartner(data))
   }
 
   const handleReset = () => {

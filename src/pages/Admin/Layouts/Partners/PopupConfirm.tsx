@@ -1,22 +1,27 @@
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import Popup from '../../../../commons/components/Popup'
+import {
+  useAppDispatch,
+  useThunkDispatch,
+} from '../../../../commons/hooks/useDispatch'
 import { closeConfirmPopup, selectPartnerId } from './utils/slice'
 import { deletePartner, getPartners } from './utils/thunk'
 
 interface PopupConfirmProps {}
 
 const PopupConfirm: FC<PopupConfirmProps> = () => {
-  const dispatch = useDispatch<any>()
+  const dispatch = useAppDispatch()
+  const thunkDispatch = useThunkDispatch()
   const { t } = useTranslation()
   const admin = useTranslation('admin')
   const partnerId = useSelector(selectPartnerId)
   const handleDelete = () => {
-    dispatch(deletePartner(partnerId))
+    thunkDispatch(deletePartner(partnerId))
       .unwrap()
       .then(() => {
-        dispatch(getPartners())
+        thunkDispatch(getPartners())
       })
   }
   return (
