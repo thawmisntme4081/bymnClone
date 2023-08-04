@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
 import Popup from '../../../../commons/components/Popup'
+import { useAppSelector } from '../../../../commons/hooks/useAppSelector'
 import {
   useAppDispatch,
   useThunkDispatch,
@@ -14,9 +14,12 @@ interface PopupConfirmProps {}
 const PopupConfirm: FC<PopupConfirmProps> = () => {
   const dispatch = useAppDispatch()
   const thunkDispatch = useThunkDispatch()
+
   const { t } = useTranslation()
   const admin = useTranslation('admin')
-  const partnerId = useSelector(selectPartnerId)
+
+  const partnerId = useAppSelector(selectPartnerId)
+
   const handleDelete = () => {
     thunkDispatch(deletePartner(partnerId))
       .unwrap()

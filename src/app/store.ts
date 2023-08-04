@@ -7,6 +7,7 @@ import {
 } from '@reduxjs/toolkit'
 import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore'
 import { slice } from '../commons/Header/utils/slice'
+import { IAdminPartnersState } from '../pages/Admin/Layouts/Partners/utils/slice'
 
 let combinedReducers = { [slice.name]: slice.reducer }
 
@@ -19,7 +20,9 @@ export const store: ToolkitStore = configureStore({
   reducer: combineReducers(combinedReducers),
 })
 
-export interface State extends ReturnType<typeof store.getState> {}
+export interface State extends ReturnType<typeof store.getState> {
+  adminPartners: IAdminPartnersState
+}
 export interface AppDispatch
   extends ThunkDispatch<
     ReturnType<typeof store.getState>,

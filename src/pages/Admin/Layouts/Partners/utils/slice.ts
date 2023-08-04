@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { addReducer, State } from '../../../../../app/store'
 import { addPartner, deletePartner, getPartners } from './thunk'
 
-interface IAdminPartnersState {
+export interface IAdminPartnersState {
   filename: string
   openPopup: {
     isOpenAddPartner: boolean
@@ -60,7 +60,7 @@ export const slice = createSlice({
     })
     builder.addCase(getPartners.fulfilled, (state, action) => {
       state.loading.getPartners = false
-      state.partners = action.payload.data
+      state.partners = action.payload?.data ?? []
     })
     builder.addCase(getPartners.rejected, (state) => {
       state.loading.getPartners = false

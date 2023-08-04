@@ -1,7 +1,7 @@
 import { Cell, flexRender } from '@tanstack/react-table'
 import { FC, useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import Table from '../../../../commons/components/Table'
+import { useAppSelector } from '../../../../commons/hooks/useAppSelector'
 import {
   useAppDispatch,
   useThunkDispatch,
@@ -21,9 +21,9 @@ import { getPartners } from './utils/thunk'
 interface IAdminPartners {}
 
 const Partners: FC<IAdminPartners> = () => {
-  const isOpenAddPartner = useSelector(selectAddPartner)
-  const partners = useSelector(selectPartners)
-  const openConfirm = useSelector(selectPopupConfirm)
+  const isOpenAddPartner = useAppSelector(selectAddPartner)
+  const partners = useAppSelector(selectPartners)
+  const openConfirm = useAppSelector(selectPopupConfirm)
 
   const thunkDispatch = useThunkDispatch()
   const dispatch = useAppDispatch()
