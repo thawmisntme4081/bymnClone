@@ -1,5 +1,6 @@
 import { memo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { Link } from 'react-router-dom'
 import { getPartners } from '../../pages/Admin/Layouts/Partners/utils/thunk'
 import Container from '../components/Container'
@@ -33,9 +34,7 @@ const Footer = () => {
                 target="_blank"
                 rel="noreferrer"
               >
-                <figure>
-                  <img src={partner.logo} alt={partner.name} loading="lazy" />
-                </figure>
+                <LazyLoadImage src={partner.logo} alt={partner.name} />
               </a>
             ))}
           </div>
@@ -48,9 +47,7 @@ const Footer = () => {
                 target="_blank"
                 rel="noreferrer"
               >
-                <figure>
-                  <img src={partner.logo} alt={partner.name} loading="lazy" />
-                </figure>
+                <LazyLoadImage src={partner.logo} alt={partner.name} />
               </a>
             ))}
           </div>

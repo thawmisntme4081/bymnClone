@@ -9,6 +9,9 @@ module.exports = {
         primary: '#dc052d',
         secondary: '#c60428',
       },
+      spacing: {
+        7.5: '1.875rem',
+      },
     },
   },
   plugins: [
@@ -38,6 +41,12 @@ module.exports = {
         '.flex-col-center': {
           display: 'flex',
           justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'column',
+        },
+        '.flex-col-between': {
+          display: 'flex',
+          justifyContent: 'space-between',
           alignItems: 'center',
           flexDirection: 'column',
         },
