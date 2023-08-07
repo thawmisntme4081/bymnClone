@@ -6,6 +6,7 @@ import {
   ThunkDispatch,
 } from '@reduxjs/toolkit'
 import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore'
+import { IFooterState } from '../commons/Footer/slice'
 import { slice } from '../commons/Header/utils/slice'
 import { IAdminPartnersState } from '../pages/Admin/Layouts/Partners/utils/slice'
 
@@ -22,6 +23,7 @@ export const store: ToolkitStore = configureStore({
 
 export interface State extends ReturnType<typeof store.getState> {
   adminPartners: IAdminPartnersState
+  footer: IFooterState
 }
 export interface AppDispatch
   extends ThunkDispatch<

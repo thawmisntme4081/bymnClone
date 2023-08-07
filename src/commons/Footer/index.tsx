@@ -1,11 +1,23 @@
-import { memo } from 'react'
+import { memo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import { getPartners } from '../../pages/Admin/Layouts/Partners/utils/thunk'
 import Container from '../components/Container'
-import { SECONDARY_PARTNERS, TOP_PARTNERS } from './constants'
+import { useAppSelector } from '../hooks/useAppSelector'
+import { useThunkDispatch } from '../hooks/useDispatch'
+import { selectPartnersNonPrimary, selectPartnersPrimary } from './slice'
 
 const Footer = () => {
   const { t } = useTranslation()
+  const thunkDispatch = useThunkDispatch()
+
+  const partnersPrimary = useAppSelector(selectPartnersPrimary)
+  const partnersNonPrimary = useAppSelector(selectPartnersNonPrimary)
+
+  useEffect(() => {
+    thunkDispatch(getPartners())
+  }, [thunkDispatch])
+
   return (
     <footer className="bg-primary">
       <Container className="flex flex-col items-center pt-8">
@@ -14,30 +26,30 @@ const Footer = () => {
         </Link>
         <div className="max-w-[760px]">
           <div className="flex-center gap-10 mb-8">
-            {TOP_PARTNERS.map((partner) => (
+            {partnersPrimary.map((partner) => (
               <a
-                key={partner.link}
+                key={partner._id}
                 href={partner.link}
                 target="_blank"
                 rel="noreferrer"
               >
                 <figure>
-                  <img src={partner.logo} alt={partner.alt} loading="lazy" />
+                  <img src={partner.logo} alt={partner.name} loading="lazy" />
                 </figure>
               </a>
             ))}
           </div>
           <div className="flex-center flex-wrap gap-x-10 mb-8 px-14">
-            {SECONDARY_PARTNERS.map((partner) => (
+            {partnersNonPrimary.map((partner) => (
               <a
-                key={partner.link}
+                key={partner._id}
                 href={partner.link}
                 className="mb-8"
                 target="_blank"
                 rel="noreferrer"
               >
                 <figure>
-                  <img src={partner.logo} alt={partner.alt} loading="lazy" />
+                  <img src={partner.logo} alt={partner.name} loading="lazy" />
                 </figure>
               </a>
             ))}
