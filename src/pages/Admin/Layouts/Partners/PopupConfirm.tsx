@@ -1,12 +1,18 @@
-import { FC } from 'react'
+import { FC, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import Popup from '../../../../commons/components/Popup'
+import { STATUS_CODE } from '../../../../commons/constants'
 import { useAppSelector } from '../../../../commons/hooks/useAppSelector'
 import {
   useAppDispatch,
   useThunkDispatch,
 } from '../../../../commons/hooks/useDispatch'
-import { closeConfirmPopup, selectPartnerId } from './utils/slice'
+import {
+  closeConfirmPopup,
+  loadPartners,
+  selectLoadingPartners,
+  selectPartnerId,
+} from './utils/slice'
 import { deletePartner, getPartners } from './utils/thunk'
 
 interface PopupConfirmProps {}
@@ -14,24 +20,32 @@ interface PopupConfirmProps {}
 const PopupConfirm: FC<PopupConfirmProps> = () => {
   const dispatch = useAppDispatch()
   const thunkDispatch = useThunkDispatch()
-
   const { t } = useTranslation()
-  const admin = useTranslation('admin')
+  const { t: adminT } = useTranslation('admin')
 
   const partnerId = useAppSelector(selectPartnerId)
+  const loading = useAppSelector(selectLoadingPartners)
 
-  const handleDelete = () => {
+  const handleDelete = useCallback(() => {
+    dispatch(loadPartners())
     thunkDispatch(deletePartner(partnerId))
       .unwrap()
-      .then(() => {
-        thunkDispatch(getPartners())
+      .then((res) => {
+        if (res.status === STATUS_CODE.OK) {
+          thunkDispatch(getPartners())
+        }
       })
-  }
+  }, [dispatch, thunkDispatch, partnerId])
+
   return (
-    <Popup onClose={() => dispatch(closeConfirmPopup())} size="small">
+    <Popup
+      onClose={() => dispatch(closeConfirmPopup())}
+      size="small"
+      loading={loading}
+    >
       <div className="px-4 pb-4">
         <p className="mb-4 text-center text-gray-500 dark:text-gray-300">
-          {admin.t('partners.DELETE_PARTNER_MESSAGE')}
+          {adminT('partners.DELETE_PARTNER_MESSAGE')}
         </p>
         <div className="flex-center space-x-4">
           <button

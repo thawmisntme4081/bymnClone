@@ -9,38 +9,49 @@ import Popup from '../../../../commons/components/Popup'
 import {
   convertFileToBase64,
   filterObjectByFormField,
+  removeUnchangedFields,
 } from '../../../../commons/helpers'
 
+import { useTranslation } from 'react-i18next'
+import { STATUS_CODE } from '../../../../commons/constants'
 import { useAppSelector } from '../../../../commons/hooks/useAppSelector'
 import {
   useAppDispatch,
   useThunkDispatch,
 } from '../../../../commons/hooks/useDispatch'
-import { ONE_MB, allowedExtensions } from './utils/constants'
+import { ERRORS, ONE_MB, allowedExtensions } from './utils/constants'
 import { IAddPartnerProps, IPartners } from './utils/interfaces'
 import {
   changeFilename,
   changeImage,
   closeAddPartner,
+  loadPartners,
   removeFile,
   selectFile,
+  selectLoadingPartners,
   selectPartnerById,
   selectPartnerId,
 } from './utils/slice'
 import { addPartner, getPartners, updatePartner } from './utils/thunk'
 
 const schema = yup.object({
-  name: yup.string().required('Please enter a name'),
-  isPrimary: yup.boolean().required(),
-  logo: yup.string().required('Please select a file'),
-  link: yup.string().url().nullable().notRequired(),
+  name: yup.string().required(ERRORS.NAME_REQUIRED),
+  isPrimary: yup.boolean().required().default(false),
+  logo: yup.string().required(ERRORS.LOGO_REQUIRED),
+  link: yup
+    .string()
+    .url('partners.errors.INVALID_URL')
+    .nullable()
+    .notRequired(),
 })
 
 const AddPartner: FC<IAddPartnerProps> = ({ title, editMode }) => {
+  const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const thunkDispatch = useThunkDispatch()
 
   const partnerId = useAppSelector(selectPartnerId)
+  const loading = useAppSelector(selectLoadingPartners)
 
   const { filename, image } = useAppSelector(selectFile)
   const partnerById = useAppSelector(selectPartnerById)
@@ -68,30 +79,33 @@ const AddPartner: FC<IAddPartnerProps> = ({ title, editMode }) => {
     }
   }, [partnerById, setValue, dispatch])
 
-  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      const fileExtension = file.name.split('.').pop()?.toLowerCase()
-      if (!allowedExtensions.includes(`.${fileExtension}`)) {
-        setError('logo', {
-          type: 'manual',
-          message: 'Invalid type file',
-        })
-        return
+  const handleFileChange = useCallback(
+    async (e: ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0]
+      if (file) {
+        const fileExtension = file.name.split('.').pop()?.toLowerCase()
+        if (!allowedExtensions.includes(`.${fileExtension}`)) {
+          setError('logo', {
+            type: 'manual',
+            message: ERRORS.INVALID_FILE,
+          })
+          return
+        }
+        if (file.size > ONE_MB) {
+          setError('logo', {
+            type: 'manual',
+            message: ERRORS.INVALID_FILE_SIZE,
+          })
+          return
+        }
+        clearErrors('logo')
+        dispatch(changeFilename(file.name))
+        const base64 = await convertFileToBase64(file)
+        setValue('logo', base64)
       }
-      if (file.size > ONE_MB) {
-        setError('logo', {
-          type: 'manual',
-          message: 'File size should be less than 1MB',
-        })
-        return
-      }
-      clearErrors('logo')
-      dispatch(changeFilename(file.name))
-      const base64 = await convertFileToBase64(file)
-      setValue('logo', base64)
-    }
-  }
+    },
+    [dispatch, setValue, setError, clearErrors],
+  )
 
   const handleRemoveFile = useCallback(() => {
     setValue('logo', '')
@@ -105,16 +119,27 @@ const AddPartner: FC<IAddPartnerProps> = ({ title, editMode }) => {
 
   const onSubmit = useCallback(
     (data: IPartners, editMode: boolean) => {
-      editMode
-        ? thunkDispatch(updatePartner({ id: partnerId, params: data }))
-            .unwrap()
-            .then(() => thunkDispatch(getPartners()))
-        : thunkDispatch(addPartner(data))
-            .unwrap()
-            .then(() => thunkDispatch(getPartners()))
-      reset()
+      dispatch(loadPartners())
+      if (editMode) {
+        removeUnchangedFields(partnerById, data)
+        thunkDispatch(updatePartner({ id: partnerId, params: data }))
+          .unwrap()
+          .then((res) => {
+            if (res.status === STATUS_CODE.OK) {
+              thunkDispatch(getPartners()).unwrap().then(reset)
+            }
+          })
+      } else {
+        thunkDispatch(addPartner(data))
+          .unwrap()
+          .then((res) => {
+            if (res.status === STATUS_CODE.CREATED) {
+              thunkDispatch(getPartners()).unwrap().then(reset)
+            }
+          })
+      }
     },
-    [reset, thunkDispatch, partnerId],
+    [thunkDispatch, dispatch, reset, partnerId, partnerById],
   )
 
   const handleClosePopup = () => {
@@ -123,7 +148,7 @@ const AddPartner: FC<IAddPartnerProps> = ({ title, editMode }) => {
   }
 
   return (
-    <Popup title={title} onClose={handleClosePopup}>
+    <Popup title={title} onClose={handleClosePopup} loading={loading}>
       <form
         className="p-6 space-y-6"
         onSubmit={handleSubmit((data) => onSubmit(data, editMode))}
@@ -158,14 +183,14 @@ const AddPartner: FC<IAddPartnerProps> = ({ title, editMode }) => {
             type="submit"
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            {editMode ? 'Edit' : 'Add'}
+            {editMode ? t('EDIT') : t('ADD')}
           </button>
           <button
             type="reset"
             onClick={handleReset}
             className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
           >
-            Reset
+            {t('RESET')}
           </button>
         </div>
       </form>

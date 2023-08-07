@@ -15,3 +15,14 @@ export const getLanguage = () =>
 
 export const filterObjectByFormField = (object: IObject, fields: string[]) =>
   Object.fromEntries(fields.map((key) => [key, object[key]]))
+
+export const removeUnchangedFields = (
+  existedData: IObject,
+  newData: IObject,
+) => {
+  for (const key in newData) {
+    if (newData[key] === existedData[key]) {
+      delete newData[key]
+    }
+  }
+}

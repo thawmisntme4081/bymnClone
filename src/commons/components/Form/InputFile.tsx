@@ -1,12 +1,14 @@
 import { faCloudArrowUp, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FC, forwardRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { InputFileProps } from './interfaces'
 
 const InputFile: FC<InputFileProps> = forwardRef<
   HTMLInputElement,
   InputFileProps
 >(({ error, filename, onRemoveFile, image, ...rest }, ref) => {
+  const { t } = useTranslation('admin')
   return (
     <>
       {filename ? (
@@ -55,7 +57,7 @@ const InputFile: FC<InputFileProps> = forwardRef<
               ref={ref}
               {...rest}
             />
-            {!error ? null : <small className="text-red-500">{error}</small>}
+            {!error ? null : <small className="text-red-500">{t(error)}</small>}
           </label>
         </div>
       )}

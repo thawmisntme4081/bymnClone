@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { addReducer, State } from '../../../../../app/store'
 import { IObject } from '../../../../../commons/interfaces'
 import { TableData } from './interfaces'
-import { addPartner, deletePartner, getPartners } from './thunk'
+import { addPartner, deletePartner, getPartners, updatePartner } from './thunk'
 
 export interface IAdminPartnersState {
   file: {
@@ -17,7 +17,6 @@ export interface IAdminPartnersState {
   partnerById: IObject
   loading: {
     getPartners: boolean
-    addPartner: boolean
   }
   partnerId: string
   editMode: boolean
@@ -36,7 +35,6 @@ const initialState: IAdminPartnersState = {
   partnerById: {},
   loading: {
     getPartners: false,
-    addPartner: false,
   },
   partnerId: '',
   editMode: false,
@@ -72,6 +70,7 @@ export const slice = createSlice({
       state.file.filename = ''
       state.file.image = ''
       state.partnerById = {}
+      state.editMode = false
     },
     closeConfirmPopup: (state) => {
       state.openPopup.openConfirm = false
@@ -79,6 +78,9 @@ export const slice = createSlice({
     clickDeletePartner: (state, action: PayloadAction<string>) => {
       state.partnerId = action.payload
       state.openPopup.openConfirm = true
+    },
+    loadPartners: (state) => {
+      state.loading.getPartners = true
     },
   },
   extraReducers(builder) {
@@ -93,16 +95,19 @@ export const slice = createSlice({
       state.loading.getPartners = false
       state.partners = []
     })
-    builder.addCase(addPartner.pending, (state) => {
-      state.loading.addPartner = true
-    })
     builder.addCase(addPartner.fulfilled, (state) => {
-      state.loading.addPartner = false
-      state.file.filename = ''
       state.openPopup.isOpenAddPartner = false
+      state.file.filename = ''
+      state.file.image = ''
+      state.partnerById = {}
+      state.editMode = false
     })
-    builder.addCase(addPartner.rejected, (state) => {
-      state.loading.addPartner = false
+    builder.addCase(updatePartner.fulfilled, (state) => {
+      state.openPopup.isOpenAddPartner = false
+      state.file.filename = ''
+      state.file.image = ''
+      state.partnerById = {}
+      state.editMode = false
     })
     builder.addCase(deletePartner.fulfilled, (state) => {
       state.partnerId = ''
@@ -115,6 +120,8 @@ export const selectFile = (state: State) => state[slice.name].file
 export const selectAddPartner = (state: State) =>
   state[slice.name].openPopup.isOpenAddPartner
 export const selectPartners = (state: State) => state[slice.name].partners
+export const selectLoadingPartners = (state: State) =>
+  state[slice.name].loading.getPartners
 export const selectPartnerId = (state: State) => state[slice.name].partnerId
 export const selectPartnerById = (state: State) => state[slice.name].partnerById
 export const selectEditMode = (state: State) => state[slice.name].editMode
@@ -130,6 +137,7 @@ export const {
   closeAddPartner,
   clickDeletePartner,
   closeConfirmPopup,
+  loadPartners,
 } = slice.actions
 
 addReducer(slice.name, slice.reducer)

@@ -2,12 +2,14 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FC, MouseEvent, ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
+import Loading from '../Loading'
 
 interface PopupProps {
   title?: string
   onClose: (e: MouseEvent<HTMLButtonElement>) => void
   children: ReactNode
   size?: 'default' | 'small' | 'large'
+  loading?: boolean
 }
 
 const Popup: FC<PopupProps> = ({
@@ -15,11 +17,12 @@ const Popup: FC<PopupProps> = ({
   onClose,
   size = 'default',
   children,
+  loading,
 }) => {
   const { t } = useTranslation('admin')
   return (
     <>
-      <div className="flex-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+      <div className="flex-center overflow-x-hidden overflow-y-auto fixed inset-0 z-20 outline-none focus:outline-none">
         <div
           className={`relative w-full ${
             size === 'small' ? 'max-w-md' : 'max-w-2xl'
@@ -45,9 +48,10 @@ const Popup: FC<PopupProps> = ({
             </div>
             {children}
           </div>
+          {loading && <Loading />}
         </div>
       </div>
-      <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+      <div className="opacity-50 fixed inset-0 z-10 bg-black" />
     </>
   )
 }

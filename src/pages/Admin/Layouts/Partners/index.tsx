@@ -27,6 +27,7 @@ const Partners: FC<IAdminPartners> = () => {
   const partners = useAppSelector(selectPartners)
   const openConfirm = useAppSelector(selectPopupConfirm)
   const isEditMode = useAppSelector(selectEditMode)
+
   const thunkDispatch = useThunkDispatch()
   const dispatch = useAppDispatch()
 
