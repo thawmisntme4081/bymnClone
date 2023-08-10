@@ -40,11 +40,15 @@ const UserAuth: FC<IUserAuthProps> = () => {
           ))}
           <div className="p-3 relative">
             <select className="w-full bg-black/[0.1] py-2 pl-3 pr-8 appearance-none text-sm font-semibold">
-              <option value="auto" selected>
+              <option className="bg-[#1E293B]" value="auto" selected>
                 Automatic theme
               </option>
-              <option value="light">Light Mode</option>
-              <option value="dark">Dark Mode</option>
+              <option className="bg-[#1E293B]" value="light">
+                Light Mode
+              </option>
+              <option className="bg-[#1E293B]" value="dark">
+                Dark Mode
+              </option>
             </select>
             {/* <FaCaretDown className="absolute right-5 top-2/4 -translate-y-1/2" /> */}
           </div>

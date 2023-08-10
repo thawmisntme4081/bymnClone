@@ -12,8 +12,29 @@ body {
 }
 
 .slick-slide > div {
-  margin: 0 4px;
+  margin-left: 8px;
 }
 .slick-list {
-  margin: 0 4px;
+  margin-left: -8px !important;
+}
+
+.slick-dots li {
+  margin: 0 !important;
+}
+
+.slick-dots li button {
+  padding: 0 !important;
+}
+
+.slick-dots li button:before {
+  color: white !important;
+}
+
+.slick-prev::before,
+.slick-next::before {
+  content: none !important;
+}
+
+.slick-disabled {
+  display: none !important;
 }

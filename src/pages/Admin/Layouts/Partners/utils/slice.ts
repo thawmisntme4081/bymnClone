@@ -5,10 +5,8 @@ import { TableData } from './interfaces'
 import { addPartner, deletePartner, getPartners, updatePartner } from './thunk'
 
 export interface IAdminPartnersState {
-  file: {
-    filename: string
-    image: string
-  }
+  logo: string
+  primaryLogo: string
   openPopup: {
     isOpenAddPartner: boolean
     openConfirm: boolean
@@ -23,10 +21,8 @@ export interface IAdminPartnersState {
 }
 
 const initialState: IAdminPartnersState = {
-  file: {
-    filename: '',
-    image: '',
-  },
+  logo: '',
+  primaryLogo: '',
   openPopup: {
     isOpenAddPartner: false,
     openConfirm: false,
@@ -44,31 +40,33 @@ export const slice = createSlice({
   name: 'adminPartners',
   initialState,
   reducers: {
-    changeFilename: (state, action: PayloadAction<string>) => {
-      state.file.filename = action.payload
+    changeImage: (
+      state,
+      action: PayloadAction<{ type: 'logo' | 'primaryLogo'; data: string }>,
+    ) => {
+      state[action.payload.type] = action.payload.data
     },
-    changeImage: (state, action: PayloadAction<string>) => {
-      state.file.image = action.payload
+    changePrimaryLogo: (state, action: PayloadAction<string>) => {
+      state.primaryLogo = action.payload
     },
-    removeFile: (state) => {
-      state.file.filename = ''
-      state.file.image = ''
+    removeImage: (state, action: PayloadAction<'logo' | 'primaryLogo'>) => {
+      state[action.payload] = ''
     },
     openAddPartner: (state) => {
       state.openPopup.isOpenAddPartner = true
     },
-    openUpdatePartner: (state, action) => {
+    openUpdatePartner: (state, action: PayloadAction<string>) => {
       state.openPopup.isOpenAddPartner = true
       state.partnerById = state.partners.find(
         (partner: TableData) => partner._id === action.payload,
       )
-      state.partnerId = action.payload
+      state.partnerId = action.payload as string
       state.editMode = true
     },
     closeAddPartner: (state) => {
       state.openPopup.isOpenAddPartner = false
-      state.file.filename = ''
-      state.file.image = ''
+      state.logo = ''
+      state.primaryLogo = ''
       state.partnerById = {}
       state.editMode = false
     },
@@ -97,15 +95,15 @@ export const slice = createSlice({
     })
     builder.addCase(addPartner.fulfilled, (state) => {
       state.openPopup.isOpenAddPartner = false
-      state.file.filename = ''
-      state.file.image = ''
+      state.logo = ''
+      state.primaryLogo = ''
       state.partnerById = {}
       state.editMode = false
     })
     builder.addCase(updatePartner.fulfilled, (state) => {
       state.openPopup.isOpenAddPartner = false
-      state.file.filename = ''
-      state.file.image = ''
+      state.logo = ''
+      state.primaryLogo = ''
       state.partnerById = {}
       state.editMode = false
     })
@@ -116,7 +114,8 @@ export const slice = createSlice({
   },
 })
 
-export const selectFile = (state: State) => state[slice.name].file
+export const selectLogo = (state: State) => state[slice.name].logo
+export const selectPrimaryLogo = (state: State) => state[slice.name].primaryLogo
 export const selectAddPartner = (state: State) =>
   state[slice.name].openPopup.isOpenAddPartner
 export const selectPartners = (state: State) => state[slice.name].partners
@@ -129,9 +128,8 @@ export const selectPopupConfirm = (state: State) =>
   state[slice.name].openPopup.openConfirm
 
 export const {
-  changeFilename,
   changeImage,
-  removeFile,
+  removeImage,
   openAddPartner,
   openUpdatePartner,
   closeAddPartner,

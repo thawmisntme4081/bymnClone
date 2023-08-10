@@ -11,8 +11,12 @@ export const columns: TableColumn<TableData>[] = [
     accessorKey: 'logo',
   },
   {
-    header: 'isPrimary',
-    accessorKey: 'isPrimary',
+    header: 'Primary logo',
+    accessorKey: 'primaryLogo',
+  },
+  {
+    header: 'Type',
+    accessorKey: 'type',
   },
 ]
 

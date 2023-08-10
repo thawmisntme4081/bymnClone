@@ -7,7 +7,7 @@ interface HonourItemProps {}
 const HonourItem: FC<HonourItemProps> = () => {
   return (
     <Link to={'/honours'}>
-      <div className="bg-[#121f38] px-6 py-9 flex-col-between transition ease-in-out delay-200 hover:bg-[#243047] hover:shadow-[rgb(0,0,0)_0px_4px_16px] ">
+      <div className="bg-[#121f38] p-6 flex-col-between transition ease-in-out delay-200 hover:bg-[#243047] hover:shadow-[rgb(0,0,0)_0px_4px_16px] ">
         <LazyLoadImage
           src="https://img.fcbayern.com/image/upload/t_cms-1x1/f_auto/w_220,c_fill/q_auto/v1631524987/cms/public/images/fcbayern-com/media/images/erlebniswelt/erfolge/dfl_pokale.png"
           alt=""

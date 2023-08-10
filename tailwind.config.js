@@ -18,7 +18,6 @@ module.exports = {
     plugin(({ addBase }) => {
       addBase({
         html: { color: 'white' },
-        option: { backgroundColor: '#1E293B' },
       })
     }),
     ({ addUtilities }) => {

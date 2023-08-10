@@ -2,7 +2,6 @@ import { InputHTMLAttributes, MouseEvent } from 'react'
 
 export interface InputFileProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string
-  filename: string
   image?: string
   onRemoveFile: (e: MouseEvent<SVGSVGElement>) => void
 }

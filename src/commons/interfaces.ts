@@ -32,3 +32,9 @@ export interface ILang {
 export interface IObject {
   [key: string]: any
 }
+
+export interface IOption {
+  _id: string
+  value: string
+  label: string
+}

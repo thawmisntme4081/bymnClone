@@ -1,5 +1,7 @@
 import { Cell, flexRender } from '@tanstack/react-table'
 import { FC, useEffect } from 'react'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
+import { getTypePartners } from '../../../../app/thunk'
 import Table from '../../../../commons/components/Table'
 import { useAppSelector } from '../../../../commons/hooks/useAppSelector'
 import {
@@ -33,6 +35,7 @@ const Partners: FC<IAdminPartners> = () => {
 
   useEffect(() => {
     thunkDispatch(getPartners())
+    thunkDispatch(getTypePartners())
   }, [thunkDispatch])
 
   const renderCell = (cell: Cell<any, unknown>, link: string) => {
@@ -46,12 +49,11 @@ const Partners: FC<IAdminPartners> = () => {
           <span>{cell.renderValue() as string}</span>
         )
       case 'logo':
+      case 'primaryLogo':
         return (
-          <img
+          <LazyLoadImage
             src={cell.renderValue() as string}
-            alt=""
-            loading="lazy"
-            width={60}
+            className="max-h-12"
           />
         )
       default:

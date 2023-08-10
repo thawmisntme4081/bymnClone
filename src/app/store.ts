@@ -6,9 +6,8 @@ import {
   ThunkDispatch,
 } from '@reduxjs/toolkit'
 import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore'
-import { IFooterState } from '../commons/Footer/slice'
-import { slice } from '../commons/Header/utils/slice'
 import { IAdminPartnersState } from '../pages/Admin/Layouts/Partners/utils/slice'
+import { ICommonState, slice } from './slice'
 
 let combinedReducers = { [slice.name]: slice.reducer }
 
@@ -23,7 +22,7 @@ export const store: ToolkitStore = configureStore({
 
 export interface State extends ReturnType<typeof store.getState> {
   adminPartners: IAdminPartnersState
-  footer: IFooterState
+  common: ICommonState
 }
 export interface AppDispatch
   extends ThunkDispatch<

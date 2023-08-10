@@ -1,10 +1,19 @@
 import { Maybe } from 'yup'
 
+export enum PartnerType {
+  MAIN = 'main',
+  PLATINUM = 'platinum',
+  GOLD = 'gold',
+  OFFICIAL = 'official',
+  REGIONAL = 'regional',
+}
+
 export interface TableData {
-  _id: number
+  _id: string
   name: string
   logo: string
-  isPrimary: boolean
+  primaryLogo: string
+  type: PartnerType
   link?: string
 }
 
@@ -12,10 +21,10 @@ export interface IAddPartnerProps {
   title: string
   editMode: boolean
 }
-
 export interface IPartners {
   name: string
-  isPrimary: NonNullable<boolean | undefined>
+  type: string
   logo: string
+  primaryLogo: string
   link: Maybe<string | null | undefined>
 }

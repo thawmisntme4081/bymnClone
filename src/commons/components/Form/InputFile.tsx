@@ -7,23 +7,14 @@ import { InputFileProps } from './interfaces'
 const InputFile: FC<InputFileProps> = forwardRef<
   HTMLInputElement,
   InputFileProps
->(({ error, filename, onRemoveFile, image, ...rest }, ref) => {
+>(({ error, onRemoveFile, image, ...rest }, ref) => {
   const { t } = useTranslation('admin')
   return (
     <>
-      {filename ? (
-        <div className="flex-between">
-          <span>{filename}</span>
-          <FontAwesomeIcon
-            icon={faXmark}
-            className="cursor-pointer"
-            onClick={onRemoveFile}
-          />
-        </div>
-      ) : image ? (
-        <div className="relative">
-          <figure className="flex-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:hover:border-gray-500">
-            <img src={image} alt="" loading="lazy" />
+      {image ? (
+        <div className="relative flex-1">
+          <figure className="flex-center w-full h-52 border-2 border-gray-300 border-dashed rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:hover:border-gray-500">
+            <img className="max-h-36" src={image} alt="" loading="lazy" />
           </figure>
           <FontAwesomeIcon
             icon={faXmark}
@@ -32,10 +23,10 @@ const InputFile: FC<InputFileProps> = forwardRef<
           />
         </div>
       ) : (
-        <div className="flex-center w-full">
+        <div className="flex-center w-full flex-1">
           <label
             htmlFor="dropzone-file"
-            className="flex-col-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+            className="flex-col-center w-full h-52 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
           >
             <div className="flex-col-center pt-5 pb-6">
               <FontAwesomeIcon

@@ -1,8 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { ChangeEvent, FC, useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import Select from 'react-select'
 import * as yup from 'yup'
-import Checkbox from '../../../../commons/components/Form/Checkbox'
+
 import Input from '../../../../commons/components/Form/Input'
 import InputFile from '../../../../commons/components/Form/InputFile'
 import Popup from '../../../../commons/components/Popup'
@@ -13,6 +14,11 @@ import {
 } from '../../../../commons/helpers'
 
 import { useTranslation } from 'react-i18next'
+import {
+  selectLoadingTypePartners,
+  selectTypePartners,
+} from '../../../../app/slice'
+import Loading from '../../../../commons/components/Loading'
 import { STATUS_CODE } from '../../../../commons/constants'
 import { useAppSelector } from '../../../../commons/hooks/useAppSelector'
 import {
@@ -22,22 +28,23 @@ import {
 import { ERRORS, ONE_MB, allowedExtensions } from './utils/constants'
 import { IAddPartnerProps, IPartners } from './utils/interfaces'
 import {
-  changeFilename,
   changeImage,
   closeAddPartner,
   loadPartners,
-  removeFile,
-  selectFile,
+  removeImage,
   selectLoadingPartners,
+  selectLogo,
   selectPartnerById,
   selectPartnerId,
+  selectPrimaryLogo,
 } from './utils/slice'
 import { addPartner, getPartners, updatePartner } from './utils/thunk'
 
 const schema = yup.object({
   name: yup.string().required(ERRORS.NAME_REQUIRED),
-  isPrimary: yup.boolean().required().default(false),
+  type: yup.string().required(ERRORS.NAME_REQUIRED),
   logo: yup.string().required(ERRORS.LOGO_REQUIRED),
+  primaryLogo: yup.string().required(ERRORS.LOGO_REQUIRED),
   link: yup
     .string()
     .url('partners.errors.INVALID_URL')
@@ -51,9 +58,12 @@ const AddPartner: FC<IAddPartnerProps> = ({ title, editMode }) => {
   const thunkDispatch = useThunkDispatch()
 
   const partnerId = useAppSelector(selectPartnerId)
-  const loading = useAppSelector(selectLoadingPartners)
+  const loadingSubmit = useAppSelector(selectLoadingPartners)
+  const loadingTypePartners = useAppSelector(selectLoadingTypePartners)
+  let typePartners = useAppSelector(selectTypePartners)
 
-  const { filename, image } = useAppSelector(selectFile)
+  const logo = useAppSelector(selectLogo)
+  const primaryLogo = useAppSelector(selectPrimaryLogo)
   const partnerById = useAppSelector(selectPartnerById)
 
   const {
@@ -64,7 +74,10 @@ const AddPartner: FC<IAddPartnerProps> = ({ title, editMode }) => {
     clearErrors,
     reset,
     formState: { errors },
-  } = useForm<IPartners>({ resolver: yupResolver(schema), mode: 'onTouched' })
+  } = useForm<IPartners>({
+    resolver: yupResolver(schema),
+    mode: 'onTouched',
+  })
 
   useEffect(() => {
     if (partnerById) {
@@ -75,45 +88,55 @@ const AddPartner: FC<IAddPartnerProps> = ({ title, editMode }) => {
       for (const key in filteredPartnerById) {
         setValue(key as keyof IPartners, filteredPartnerById[key])
       }
-      dispatch(changeImage(filteredPartnerById.logo))
+      dispatch(changeImage({ type: 'logo', data: filteredPartnerById.logo }))
+      dispatch(
+        changeImage({
+          type: 'primaryLogo',
+          data: filteredPartnerById.primaryLogo,
+        }),
+      )
     }
   }, [partnerById, setValue, dispatch])
 
   const handleFileChange = useCallback(
-    async (e: ChangeEvent<HTMLInputElement>) => {
+    async (e: ChangeEvent<HTMLInputElement>, field: 'logo' | 'primaryLogo') => {
       const file = e.target.files?.[0]
       if (file) {
         const fileExtension = file.name.split('.').pop()?.toLowerCase()
         if (!allowedExtensions.includes(`.${fileExtension}`)) {
-          setError('logo', {
+          setError(field, {
             type: 'manual',
             message: ERRORS.INVALID_FILE,
           })
           return
         }
         if (file.size > ONE_MB) {
-          setError('logo', {
+          setError(field, {
             type: 'manual',
             message: ERRORS.INVALID_FILE_SIZE,
           })
           return
         }
-        clearErrors('logo')
-        dispatch(changeFilename(file.name))
+        clearErrors(field)
         const base64 = await convertFileToBase64(file)
-        setValue('logo', base64)
+        setValue(field, base64)
+        dispatch(changeImage({ type: field, data: base64 }))
       }
     },
     [dispatch, setValue, setError, clearErrors],
   )
 
-  const handleRemoveFile = useCallback(() => {
-    setValue('logo', '')
-    dispatch(removeFile())
-  }, [dispatch, setValue])
+  const handleRemoveFile = useCallback(
+    (field: 'logo' | 'primaryLogo') => {
+      setValue(field, '')
+      dispatch(removeImage(field))
+    },
+    [dispatch, setValue],
+  )
 
   const handleReset = () => {
-    dispatch(removeFile())
+    dispatch(removeImage('logo'))
+    dispatch(removeImage('primaryLogo'))
     reset()
   }
 
@@ -148,7 +171,7 @@ const AddPartner: FC<IAddPartnerProps> = ({ title, editMode }) => {
   }
 
   return (
-    <Popup title={title} onClose={handleClosePopup} loading={loading}>
+    <Popup title={title} onClose={handleClosePopup} loading={loadingSubmit}>
       <form
         className="p-6 space-y-6"
         onSubmit={handleSubmit((data) => onSubmit(data, editMode))}
@@ -166,19 +189,39 @@ const AddPartner: FC<IAddPartnerProps> = ({ title, editMode }) => {
           error={errors.link?.message}
           {...register('link')}
         />
-        <InputFile
-          onChange={handleFileChange}
-          error={errors.logo?.message}
-          filename={filename}
-          onRemoveFile={handleRemoveFile}
-          image={image}
-        />
-        <Checkbox
-          id="isPrimary"
-          label="Partner primary"
-          {...register('isPrimary')}
-        />
-        <div className="flex-end p-6 space-x-2 rounded-b dark:border-gray-600">
+        {!loadingTypePartners ? (
+          <Select
+            {...register('type')}
+            options={typePartners}
+            styles={{
+              option: (base, { isSelected }) => ({
+                ...base,
+                color: isSelected ? 'white' : '#475569',
+                backgroundColor: isSelected ? '#dc052d' : 'inherit',
+              }),
+            }}
+            onChange={(value) => {
+              setValue('type', value?._id ?? '')
+            }}
+          />
+        ) : (
+          <Loading type="block" className="w-full h-11" />
+        )}
+        <div className="flex gap-2">
+          <InputFile
+            onChange={(e) => handleFileChange(e, 'logo')}
+            error={errors.logo?.message}
+            onRemoveFile={() => handleRemoveFile('logo')}
+            image={logo}
+          />
+          <InputFile
+            onChange={(e) => handleFileChange(e, 'primaryLogo')}
+            error={errors.primaryLogo?.message}
+            onRemoveFile={() => handleRemoveFile('primaryLogo')}
+            image={primaryLogo}
+          />
+        </div>
+        <div className="flex-end px-6 space-x-2 rounded-b dark:border-gray-600">
           <button
             type="submit"
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
