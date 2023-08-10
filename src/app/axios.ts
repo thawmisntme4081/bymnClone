@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const publicAxios = axios.create({
-  baseURL: 'http://localhost:5000/',
+  baseURL: process.env.SERVER_URL,
   headers: {
     'Content-type': 'application/json',
   },
