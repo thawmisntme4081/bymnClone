@@ -4,6 +4,7 @@ import { RouteConfig, User } from './commons/interfaces'
 const Homepage = lazy(() => import('./pages/Homepage'))
 const Contact = lazy(() => import('./pages/Contact'))
 const Stadium = lazy(() => import('./pages/Stadium'))
+const Honours = lazy(() => import('./pages/Honours'))
 const Club = lazy(() => import('./pages/Club'))
 const AdminClub = lazy(() => import('./pages/Admin/Layouts/Club'))
 const Dashboard = lazy(() => import('./pages/Admin/Layouts/Dashboard'))
@@ -25,6 +26,10 @@ export const routes: RouteConfig[] = [
   {
     path: '/stadium',
     component: Stadium,
+  },
+  {
+    path: '/honours',
+    component: Honours,
   },
   {
     path: '/club',

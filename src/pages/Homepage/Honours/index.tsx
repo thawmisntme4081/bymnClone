@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import { Link } from 'react-router-dom'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick-theme.css'
 import 'slick-carousel/slick/slick.css'
@@ -23,11 +24,17 @@ const Honours: FC<HonoursProps> = () => {
 
   return (
     <Section title="Honours">
-      <Slider {...settings}>
+      <Slider {...settings} className="mb-9">
         {[...Array(LENGTH)].map((item, index) => (
           <HonourItem key={index} />
         ))}
       </Slider>
+      <Link
+        to="/honours"
+        className="bg-[#121f38] hover:bg-[#243047] px-3.5 rounded h-10 font-semibold inline-block leading-10"
+      >
+        All achievements
+      </Link>
     </Section>
   )
 }

@@ -24,7 +24,7 @@ const UserAuth: FC<IUserAuthProps> = () => {
       {isOpen && (
         <div
           ref={ref}
-          className="absolute right-0 top-11 z-10 bg-primary shadow-[0px_2px_32px_0px_rgba(0,0,0,0.8)] w-60"
+          className="absolute right-0 top-11 z-20 bg-primary shadow-[0px_2px_32px_0px_rgba(0,0,0,0.8)] w-60"
         >
           <div className="flex-center bg-black/[0.1] h-44">
             <FontAwesomeIcon icon={faCircleUser} className="text-[80px]" />
