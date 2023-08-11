@@ -56,6 +56,8 @@ const Partners: FC<IAdminPartners> = () => {
             className="max-h-12"
           />
         )
+      case 'type':
+        return <span>{(cell.renderValue() as { value: string }).value}</span>
       default:
         return flexRender(cell.column.columnDef.cell, cell.getContext())
     }

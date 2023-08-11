@@ -2,14 +2,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { DEFAULT_LANGUAGE } from '../commons/constants'
 import { IOption } from '../commons/interfaces'
 import { TableData } from '../pages/Admin/Layouts/Partners/utils/interfaces'
-import { getPartners } from '../pages/Admin/Layouts/Partners/utils/thunk'
 import { State } from './store'
-import { getTypePartners } from './thunk'
+import { getPartnersMainAndPlatinum, getTypePartners } from './thunk'
 
 export interface ICommonState {
   lang: string
-  partnersPrimary: TableData[]
-  partnersNonPrimary: TableData[]
+  partnersMain: TableData[]
+  partnersPlatinum: TableData[]
   typePartners: IOption[]
   loading: {
     partners: boolean
@@ -19,8 +18,8 @@ export interface ICommonState {
 
 const initialState: ICommonState = {
   lang: DEFAULT_LANGUAGE,
-  partnersPrimary: [],
-  partnersNonPrimary: [],
+  partnersMain: [],
+  partnersPlatinum: [],
   loading: {
     partners: false,
     typePartners: false,
@@ -37,21 +36,18 @@ export const slice = createSlice({
     },
   },
   extraReducers(builder) {
-    builder.addCase(getPartners.pending, (state) => {
+    builder.addCase(getPartnersMainAndPlatinum.pending, (state) => {
       state.loading.partners = true
     })
-    builder.addCase(getPartners.fulfilled, (state, action) => {
+    builder.addCase(getPartnersMainAndPlatinum.fulfilled, (state, action) => {
       state.loading.partners = false
-      const data = action.payload.data
-      // state.partnersNonPrimary = data.filter(
-      //   (item: TableData) => item.isPrimary === false,
-      // )
-      // state.partnersPrimary = data.filter((item: TableData) => item.isPrimary)
+      state.partnersMain = action.payload.main
+      state.partnersPlatinum = action.payload.platinum
     })
-    builder.addCase(getPartners.rejected, (state) => {
+    builder.addCase(getPartnersMainAndPlatinum.rejected, (state) => {
       state.loading.partners = false
-      state.partnersPrimary = []
-      state.partnersNonPrimary = []
+      state.partnersMain = []
+      state.partnersPlatinum = []
     })
     builder.addCase(getTypePartners.pending, (state) => {
       state.loading.partners = true
@@ -66,10 +62,10 @@ export const slice = createSlice({
 export const { changeLang } = slice.actions
 
 export const selectLang = (state: State) => state[slice.name].lang
-export const selectPartnersPrimary = (state: State) =>
-  state[slice.name].partnersPrimary
-export const selectPartnersNonPrimary = (state: State) =>
-  state[slice.name].partnersNonPrimary
+export const selectPartnersMain = (state: State) =>
+  state[slice.name].partnersMain
+export const selectPartnersPlatinum = (state: State) =>
+  state[slice.name].partnersPlatinum
 export const selectTypePartners = (state: State) =>
   state[slice.name].typePartners
 export const selectLoadingTypePartners = (state: State) =>

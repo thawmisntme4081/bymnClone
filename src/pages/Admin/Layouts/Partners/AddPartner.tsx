@@ -192,6 +192,7 @@ const AddPartner: FC<IAddPartnerProps> = ({ title, editMode }) => {
         {!loadingTypePartners ? (
           <Select
             {...register('type')}
+            defaultValue={partnerById.type}
             options={typePartners}
             styles={{
               option: (base, { isSelected }) => ({
